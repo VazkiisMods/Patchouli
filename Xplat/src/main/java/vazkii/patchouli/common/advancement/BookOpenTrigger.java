@@ -6,7 +6,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.ExtraCodecs;
 
 import vazkii.patchouli.api.PatchouliAPI;
 
@@ -39,10 +38,10 @@ public class BookOpenTrigger extends SimpleCriterionTrigger<BookOpenTrigger.Trig
 	public record TriggerInstance(Optional<ContextAwarePredicate> player, ResourceLocation book, Optional<ResourceLocation> entry, MinMaxBounds.Ints page) implements SimpleInstance {
 
 		public static Codec<BookOpenTrigger.TriggerInstance> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-				ExtraCodecs.strictOptionalField(EntityPredicate.ADVANCEMENT_CODEC, "player").forGetter(TriggerInstance::player),
+				EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(TriggerInstance::player),
 				ResourceLocation.CODEC.fieldOf("book").forGetter(TriggerInstance::book),
-				ExtraCodecs.strictOptionalField(ResourceLocation.CODEC, "entry").forGetter(TriggerInstance::entry),
-				ExtraCodecs.strictOptionalField(MinMaxBounds.Ints.CODEC, "page", MinMaxBounds.Ints.ANY).forGetter(TriggerInstance::page)
+				ResourceLocation.CODEC.optionalFieldOf("entry").forGetter(TriggerInstance::entry),
+				MinMaxBounds.Ints.CODEC.optionalFieldOf("page", MinMaxBounds.Ints.ANY).forGetter(TriggerInstance::page)
 		).apply(instance, TriggerInstance::new));
 
 		public boolean matches(@NotNull ResourceLocation book, @Nullable ResourceLocation entry, int page) {
