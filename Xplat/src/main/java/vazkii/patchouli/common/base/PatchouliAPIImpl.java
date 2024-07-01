@@ -28,6 +28,7 @@ import vazkii.patchouli.client.book.gui.GuiBook;
 import vazkii.patchouli.client.book.template.BookTemplate;
 import vazkii.patchouli.client.book.text.BookTextParser;
 import vazkii.patchouli.client.handler.MultiblockVisualizationHandler;
+import vazkii.patchouli.common.advancement.BookOpenTrigger;
 import vazkii.patchouli.common.book.Book;
 import vazkii.patchouli.common.book.BookRegistry;
 import vazkii.patchouli.common.item.ItemModBook;
@@ -80,11 +81,13 @@ public class PatchouliAPIImpl implements IPatchouliAPI {
 
 	@Override
 	public void openBookGUI(ServerPlayer player, ResourceLocation book) {
+		BookOpenTrigger.INSTANCE.trigger(player, book);
 		IXplatAbstractions.INSTANCE.sendOpenBookGui(player, book, null, 0);
 	}
 
 	@Override
 	public void openBookEntry(ServerPlayer player, ResourceLocation book, ResourceLocation entry, int page) {
+		BookOpenTrigger.INSTANCE.trigger(player, book, entry, page);
 		IXplatAbstractions.INSTANCE.sendOpenBookGui(player, book, entry, page);
 	}
 

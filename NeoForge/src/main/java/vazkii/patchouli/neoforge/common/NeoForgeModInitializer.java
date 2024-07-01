@@ -20,6 +20,7 @@ import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
 import vazkii.patchouli.api.PatchouliAPI;
+import vazkii.patchouli.common.advancement.PatchouliCriteriaTriggers;
 import vazkii.patchouli.common.base.PatchouliSounds;
 import vazkii.patchouli.common.book.BookRegistry;
 import vazkii.patchouli.common.command.OpenBookCommand;
@@ -50,7 +51,8 @@ public class NeoForgeModInitializer {
 		evt.register(Registries.ITEM, rh -> {
 			PatchouliItems.submitItemRegistrations(rh::register);
 		});
-	}
+        evt.register(Registries.TRIGGER_TYPE, rh -> PatchouliCriteriaTriggers.submitTriggerRegistrations(rh::register));
+    }
 
 	@SubscribeEvent
 	public static void processCreativeTabs(BuildCreativeModeTabContentsEvent evt) {
