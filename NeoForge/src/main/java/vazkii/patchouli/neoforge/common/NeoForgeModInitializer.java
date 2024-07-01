@@ -51,8 +51,8 @@ public class NeoForgeModInitializer {
 		evt.register(Registries.ITEM, rh -> {
 			PatchouliItems.submitItemRegistrations(rh::register);
 		});
-        evt.register(Registries.TRIGGER_TYPE, rh -> PatchouliCriteriaTriggers.submitTriggerRegistrations(rh::register));
-    }
+		evt.register(Registries.TRIGGER_TYPE, rh -> PatchouliCriteriaTriggers.submitTriggerRegistrations(rh::register));
+	}
 
 	@SubscribeEvent
 	public static void processCreativeTabs(BuildCreativeModeTabContentsEvent evt) {
