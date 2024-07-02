@@ -2,7 +2,6 @@ package vazkii.patchouli.common.item;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -25,8 +24,6 @@ import vazkii.patchouli.common.book.BookRegistry;
 import java.util.List;
 
 public class ItemModBook extends Item {
-
-	public static final String TAG_BOOK = "patchouli:book";
 
 	public ItemModBook() {
 		super(new Item.Properties().stacksTo(1));
@@ -62,9 +59,7 @@ public class ItemModBook extends Item {
 	public static ItemStack forBook(ResourceLocation book) {
 		ItemStack stack = new ItemStack(PatchouliItems.BOOK);
 
-		CompoundTag cmp = new CompoundTag();
-		cmp.putString(TAG_BOOK, book.toString());
-		stack.setTag(cmp);
+		stack.set(PatchouliDataComponents.BOOK, book);
 
 		return stack;
 	}
@@ -87,12 +82,11 @@ public class ItemModBook extends Item {
 	}
 
 	private static ResourceLocation getBookId(ItemStack stack) {
-		if (!stack.hasTag() || !stack.getTag().contains(TAG_BOOK)) {
+		if (!stack.has(PatchouliDataComponents.BOOK)) {
 			return null;
 		}
 
-		String bookStr = stack.getTag().getString(TAG_BOOK);
-		return ResourceLocation.tryParse(bookStr);
+		return stack.get(PatchouliDataComponents.BOOK);
 	}
 
 	@Override
@@ -106,8 +100,8 @@ public class ItemModBook extends Item {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-		super.appendHoverText(stack, worldIn, tooltip, flagIn);
+	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flagIn) {
+		super.appendHoverText(stack, context, tooltip, flagIn);
 
 		ResourceLocation rl = getBookId(stack);
 		if (flagIn.isAdvanced()) {

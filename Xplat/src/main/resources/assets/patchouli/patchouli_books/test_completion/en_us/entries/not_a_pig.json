@@ -1,6 +1,6 @@
 {
   "name": "1 - Pigman?",
-  "icon": "minecraft:zombie_pigman_spawn_egg",
+  "icon": "minecraft:zombified_piglin_spawn_egg",
   "category": "patchouli:regret",
   "advancement": "patchouli:not_a_pig",
   "pages": [

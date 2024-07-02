@@ -100,5 +100,5 @@
 	"patchouli.gui.lexicon.button.mark_category_read": "Mark this category as read",
 
 	"patchouli.networking.open_book.failed": "Failed to open book %s",
-	"patchouli.networking.reload_contents.invalid": "Failed to reload contents %S"
+	"patchouli.networking.reload_contents.failed": "Failed to reload contents %S"
 }

@@ -3,6 +3,8 @@ package vazkii.patchouli.api;
 import com.google.common.base.Suppliers;
 import com.google.gson.JsonElement;
 
+import net.minecraft.core.HolderLookup;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
@@ -30,14 +32,14 @@ public interface VariableHelper {
 	/**
 	 * Create an {@link IVariable} from a given object.
 	 */
-	default <T> IVariable createFromObject(T object) {
+	default <T> IVariable createFromObject(T object, HolderLookup.Provider registries) {
 		return null;
 	}
 
 	/**
 	 * Create an {@link IVariable} backed by the given {@link JsonElement}.
 	 */
-	default IVariable createFromJson(JsonElement elem) {
+	default IVariable createFromJson(JsonElement elem, HolderLookup.Provider registries) {
 		return null;
 	}
 

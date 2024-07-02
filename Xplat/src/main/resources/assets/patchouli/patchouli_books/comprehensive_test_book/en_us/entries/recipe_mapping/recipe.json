@@ -14,7 +14,7 @@
     },
     {
       "type": "patchouli:blasting",
-      "recipe": "minecraft:iron_ingot_from_blasting"
+      "recipe": "minecraft:iron_ingot_from_blasting_iron_ore"
     },
     {
       "type": "patchouli:smoking",

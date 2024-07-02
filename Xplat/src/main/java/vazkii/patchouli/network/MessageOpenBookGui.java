@@ -1,19 +1,23 @@
-package vazkii.patchouli.neoforge.network;
+package vazkii.patchouli.network;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 
 import vazkii.patchouli.api.PatchouliAPI;
 
 import org.jetbrains.annotations.Nullable;
 
-public record NeoForgeMessageOpenBookGui(ResourceLocation book, @Nullable ResourceLocation entry, int page) implements CustomPacketPayload {
+public record MessageOpenBookGui(ResourceLocation book, @Nullable ResourceLocation entry, int page) implements CustomPacketPayload {
 
 	public static final ResourceLocation ID = new ResourceLocation(PatchouliAPI.MOD_ID, "open_book");
+	public static final StreamCodec<FriendlyByteBuf, MessageOpenBookGui> CODEC = CustomPacketPayload.codec(
+			MessageOpenBookGui::write,
+			MessageOpenBookGui::new);
+	public static final Type<MessageOpenBookGui> TYPE = CustomPacketPayload.createType(ID.toString());
 
-	public NeoForgeMessageOpenBookGui(FriendlyByteBuf buf) {
+	public MessageOpenBookGui(FriendlyByteBuf buf) {
 		this(buf.readResourceLocation(), getEntry(buf), buf.readVarInt());
 	}
 
@@ -28,12 +32,8 @@ public record NeoForgeMessageOpenBookGui(ResourceLocation book, @Nullable Resour
 		buf.writeVarInt(page);
 	}
 
-	public static void send(ServerPlayer player, ResourceLocation book, @Nullable ResourceLocation entry, int page) {
-		player.connection.send(new NeoForgeMessageOpenBookGui(book, entry, page));
-	}
-
 	@Override
-	public ResourceLocation id() {
-		return ID;
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
 }

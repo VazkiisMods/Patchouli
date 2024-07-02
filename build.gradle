@@ -5,7 +5,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.diffplug.spotless:spotless-plugin-gradle:5.12.5"
+        classpath "com.diffplug.spotless:spotless-plugin-gradle:6.23.3"
     }
 }
 
@@ -19,7 +19,7 @@ subprojects {
     apply plugin: 'pmd'
     apply plugin: "com.diffplug.spotless"
     apply plugin: 'maven-publish'
-    java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+    java.toolchain.languageVersion = JavaLanguageVersion.of(21)
     java.withSourcesJar()
     archivesBaseName = "${mod_name}"
 
@@ -34,7 +34,7 @@ subprojects {
 
     tasks.withType(JavaCompile).configureEach {
         it.options.encoding = 'UTF-8'
-        it.options.release = 17
+        it.options.release = 21
     }
 
     tasks.withType(GenerateModuleMetadata).configureEach {

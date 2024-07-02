@@ -9,7 +9,7 @@
             "type": "patchouli:smelting",
             "text": "Haha yes",
             "recipe": "minecraft:stone",
-            "recipe2": "minecraft:iron_ingot"
+            "recipe2": "minecraft:iron_ingot_from_smelting_iron_ore"
         },
         {
             "type": "patchouli:spotlight",
@@ -18,18 +18,15 @@
             "item": {
                 "item": "minecraft:diamond_sword",
                 "count": 293,
-                "nbt": {
-                    "Enchantments": [
-                        {
-                            "id": "minecraft:sharpness",
-                            "lvl": 3
-                        }
+                "components": {
+                    "minecraft:lore": [
+                        "\"This has lore!!!\"",
+                        "\"Whoever redesigned this system to take \\\"stringified JSON\\\" should be fed to Ravagers on sight!\""
                     ],
-                    "display": {
-                        "Lore": [
-                            "\"This has lore!!!\"",
-                            "\"Whoever redesigned this system to take \\\"stringified JSON\\\" should be fed to Ravagers on sight!\""
-                        ]
+                    "minecraft:enchantments": {
+                        "levels": {
+                            "minecraft:sharpness": 3
+                        }
                     }
                 }
             }

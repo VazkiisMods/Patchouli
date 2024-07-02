@@ -1,7 +1,7 @@
 package vazkii.patchouli.neoforge.common;
 
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
@@ -55,8 +55,8 @@ public class NeoForgePatchouliConfig {
 		SPEC = builder.build();
 	}
 
-	public static void setup() {
-		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, SPEC);
+	public static void setup(ModContainer container) {
+		container.registerConfig(ModConfig.Type.CLIENT, SPEC);
 		PatchouliConfig.set(new PatchouliConfigAccess() {
 			@Override
 			public boolean disableAdvancementLocking() {

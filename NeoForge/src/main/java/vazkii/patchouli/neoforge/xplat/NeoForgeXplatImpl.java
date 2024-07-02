@@ -14,8 +14,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import vazkii.patchouli.api.BookContentsReloadEvent;
 import vazkii.patchouli.api.BookDrawScreenEvent;
 import vazkii.patchouli.neoforge.client.NeoForgeClientInitializer;
-import vazkii.patchouli.neoforge.network.NeoForgeMessageOpenBookGui;
-import vazkii.patchouli.neoforge.network.NeoForgeMessageReloadBookContents;
+import vazkii.patchouli.neoforge.network.NeoForgeNetworkHandler;
 import vazkii.patchouli.xplat.IXplatAbstractions;
 import vazkii.patchouli.xplat.XplatModContainer;
 
@@ -38,12 +37,12 @@ public class NeoForgeXplatImpl implements IXplatAbstractions {
 
 	@Override
 	public void sendReloadContentsMessage(MinecraftServer server) {
-		NeoForgeMessageReloadBookContents.sendToAll(server);
+		NeoForgeNetworkHandler.sendReloadBookContents(server);
 	}
 
 	@Override
 	public void sendOpenBookGui(ServerPlayer player, ResourceLocation book, @Nullable ResourceLocation entry, int page) {
-		NeoForgeMessageOpenBookGui.send(player, book, entry, page);
+		NeoForgeNetworkHandler.sendOpenBook(player, book, entry, page);
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 {
     "display": {
         "icon": {
-            "item": "minecraft:book"
+            "id": "minecraft:book"
         },
         "title": {
             "translate": "Patchouli"

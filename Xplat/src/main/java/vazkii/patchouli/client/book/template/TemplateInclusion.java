@@ -4,6 +4,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.Level;
 
 import vazkii.patchouli.api.IComponentProcessor;
@@ -87,7 +90,7 @@ public class TemplateInclusion {
 		String query = prefixed ? name.substring(1) : name;
 
 		// if it's an upreference, return the upreference
-		String result = IVariable.wrap(localBindings.get(query)).asString();
+		String result = IVariable.wrap(localBindings.get(query), RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY)).asString();
 		if (result.startsWith("#")) {
 			return result.substring(1);
 		}
@@ -102,7 +105,7 @@ public class TemplateInclusion {
 		if (key.startsWith("#")) {
 			key = key.substring(1);
 		}
-		IVariable result = IVariable.wrap(localBindings.get(key));
+		IVariable result = IVariable.wrap(localBindings.get(key), RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY));
 		return result.asString().isEmpty() || isUpreference(result) ? null : result;
 	}
 
@@ -121,9 +124,9 @@ public class TemplateInclusion {
 			}
 
 			@Override
-			public IVariable get(String key) {
+			public IVariable get(String key, HolderLookup.Provider registries) {
 				IVariable vari = attemptVariableLookup(key);
-				return vari == null ? provider.get(qualifyName(key)) : vari;
+				return vari == null ? provider.get(qualifyName(key), registries) : vari;
 			}
 		};
 	}

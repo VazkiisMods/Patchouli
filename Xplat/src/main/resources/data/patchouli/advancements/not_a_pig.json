@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "minecraft:rotten_flesh"
+      "id": "minecraft:rotten_flesh"
     },
     "title": {
       "translate": "That's no pig..."

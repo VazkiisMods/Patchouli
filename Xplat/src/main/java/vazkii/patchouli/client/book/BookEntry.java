@@ -4,6 +4,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonObject;
 
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -250,7 +252,7 @@ public final class BookEntry extends AbstractReadStateHolder implements Comparab
 				List<ItemStack> stacks;
 				int pageNumber = entry.getValue();
 				try {
-					stacks = ItemStackUtil.loadStackListFromString(key);
+					stacks = ItemStackUtil.loadStackListFromString(key, RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY));
 				} catch (Exception e) {
 					PatchouliAPI.LOGGER.warn("Invalid extra recipe mapping: {} to page {} in entry {}: {}", key, pageNumber, id, e.getMessage());
 					continue;

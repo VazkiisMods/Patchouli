@@ -37,11 +37,16 @@ runs {
 }
 
 dependencies {
-    implementation "net.neoforged:neoforge:20.4.173"
+    implementation "net.neoforged:neoforge:20.6.115"
     implementation project(":Xplat")
 
-    compileOnly "mezz.jei:jei-1.20.4-common-api:17.0.0.30"
-    testCompileOnly "mezz.jei:jei-1.20.4-common-api:17.0.0.30"
+    compileOnly "mezz.jei:jei-1.20.6-common-api:18.0.0.62"
+    testCompileOnly "mezz.jei:jei-1.20.6-common-api:18.0.0.62"
+}
+
+tasks.named('test').configure {
+    //Disable builtin test as we have JUnit enabled in Xplat
+    enabled(false)
 }
 
 TaskCollection.metaClass.excludingNeoTasks = { ->

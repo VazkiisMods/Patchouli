@@ -1,44 +1,25 @@
 package vazkii.patchouli.fabric.network;
 
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
-import vazkii.patchouli.api.PatchouliAPI;
 import vazkii.patchouli.client.book.ClientBookRegistry;
+import vazkii.patchouli.network.MessageOpenBookGui;
 
 import org.jetbrains.annotations.Nullable;
 
-
-import io.netty.buffer.Unpooled;
-
 public class FabricMessageOpenBookGui {
-	public static final ResourceLocation ID = new ResourceLocation(PatchouliAPI.MOD_ID, "open_book");
 
 	public static void send(ServerPlayer player, ResourceLocation book, @Nullable ResourceLocation entry, int page) {
-		FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-		buf.writeResourceLocation(book);
-		buf.writeUtf(entry == null ? "" : entry.toString());
-		buf.writeVarInt(page);
-		ServerPlayNetworking.send(player, ID, buf);
+		ServerPlayNetworking.send(player, new MessageOpenBookGui(book, entry, page));
 	}
 
-	public static void handle(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
-		ResourceLocation book = buf.readResourceLocation();
-		ResourceLocation entry;
-		String tmp = buf.readUtf();
-		if (tmp.isEmpty()) {
-			entry = null;
-		} else {
-			entry = ResourceLocation.tryParse(tmp);
-		}
-
-		int page = buf.readVarInt();
-		client.submit(() -> ClientBookRegistry.INSTANCE.displayBookGui(book, entry, page));
+	public static void handle(MessageOpenBookGui message, ClientPlayNetworking.Context handler) {
+		Minecraft client = handler.client();
+		client.submit(() -> ClientBookRegistry.INSTANCE.displayBookGui(message.book(), message.entry(), message.page()));
 	}
 
 }

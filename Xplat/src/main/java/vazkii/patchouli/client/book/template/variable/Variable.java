@@ -2,6 +2,8 @@ package vazkii.patchouli.client.book.template.variable;
 
 import com.google.gson.JsonElement;
 
+import net.minecraft.core.HolderLookup;
+
 import vazkii.patchouli.api.IVariable;
 import vazkii.patchouli.api.IVariableSerializer;
 import vazkii.patchouli.api.VariableHelper;
@@ -14,10 +16,12 @@ public class Variable implements IVariable {
 	private final JsonElement value;
 
 	@Nullable private final Class<?> sourceClass;
+	private final HolderLookup.Provider registries;
 
-	public Variable(JsonElement elem, Class<?> c) {
+	public Variable(JsonElement elem, Class<?> c, HolderLookup.Provider provider) {
 		value = Objects.requireNonNull(elem);
 		sourceClass = c;
+		registries = provider;
 	}
 
 	@Override
@@ -28,7 +32,7 @@ public class Variable implements IVariable {
 			throw new IllegalArgumentException(String.format("Can't deserialize object of class %s from IVariable", clazz));
 		}
 
-		return serializer.fromJson(value);
+		return serializer.fromJson(value, registries);
 	}
 
 	@Override

@@ -12,7 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import vazkii.patchouli.api.PatchouliAPI;
-import vazkii.patchouli.common.item.ItemModBook;
+import vazkii.patchouli.common.item.PatchouliDataComponents;
 import vazkii.patchouli.common.item.PatchouliItems;
 import vazkii.patchouli.mixin.client.AccessorKeyMapping;
 
@@ -46,10 +46,10 @@ public class PatchouliJeiPlugin implements IModPlugin {
 	@Override
 	public void registerItemSubtypes(@NotNull ISubtypeRegistration registration) {
 		registration.registerSubtypeInterpreter(VanillaTypes.ITEM_STACK, PatchouliItems.BOOK, (stack, context) -> {
-			if (!stack.hasTag() || !stack.getTag().contains(ItemModBook.TAG_BOOK)) {
+			if (!stack.has(PatchouliDataComponents.BOOK)) {
 				return "";
 			}
-			return stack.getTag().getString(ItemModBook.TAG_BOOK);
+			return stack.get(PatchouliDataComponents.BOOK).toString();
 		});
 	}
 

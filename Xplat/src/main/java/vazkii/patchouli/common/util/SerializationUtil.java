@@ -11,7 +11,6 @@ import vazkii.patchouli.api.IVariable;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.io.*;
 import java.util.Locale;
 
 public final class SerializationUtil {

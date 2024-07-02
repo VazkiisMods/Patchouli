@@ -61,15 +61,15 @@ dependencies {
 
 	minecraft "com.mojang:minecraft:${mc_version}"
 	mappings loom.officialMojangMappings()
-	modImplementation "net.fabricmc:fabric-loader:0.15.3"
+	modImplementation "net.fabricmc:fabric-loader:0.15.11"
 
-	modImplementation "net.fabricmc.fabric-api:fabric-api:0.92.1+1.20.4"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:0.100.0+1.20.6"
     compileOnly project(":Xplat")
 
-	modCompileOnly "mezz.jei:jei-1.20.4-common-api:17.0.0.30"
+	modCompileOnly "mezz.jei:jei-1.20.6-common-api:18.0.0.62"
 
-	modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:14.0.688") { transitive = false }
-	modCompileOnly("me.shedaniel.cloth:cloth-config-fabric:13.0.121") { transitive = false }
+	modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:16.0.729") { transitive = false }
+	modCompileOnly("me.shedaniel.cloth:cloth-config-fabric:14.0.126") { transitive = false }
 }
 
 compileJava {

@@ -33,6 +33,8 @@ import vazkii.patchouli.common.item.ItemModBook;
 import vazkii.patchouli.common.item.PatchouliItems;
 import vazkii.patchouli.fabric.network.FabricMessageOpenBookGui;
 import vazkii.patchouli.fabric.network.FabricMessageReloadBookContents;
+import vazkii.patchouli.network.MessageOpenBookGui;
+import vazkii.patchouli.network.MessageReloadBookContents;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -50,8 +52,8 @@ public class FabricClientInitializer implements ClientModInitializer {
 		UseBlockCallback.EVENT.register(MultiblockVisualizationHandler::onPlayerInteract);
 		ClientTickEvents.END_CLIENT_TICK.register(MultiblockVisualizationHandler::onClientTick);
 		HudRenderCallback.EVENT.register(MultiblockVisualizationHandler::onRenderHUD);
-		ClientPlayNetworking.registerGlobalReceiver(FabricMessageOpenBookGui.ID, FabricMessageOpenBookGui::handle);
-		ClientPlayNetworking.registerGlobalReceiver(FabricMessageReloadBookContents.ID, FabricMessageReloadBookContents::handle);
+		ClientPlayNetworking.registerGlobalReceiver(MessageOpenBookGui.TYPE, FabricMessageOpenBookGui::handle);
+		ClientPlayNetworking.registerGlobalReceiver(MessageReloadBookContents.TYPE, FabricMessageReloadBookContents::handle);
 
 		ModelLoadingPlugin.register(pluginContext -> {
 			for (Book book : BookRegistry.INSTANCE.books.values()) {

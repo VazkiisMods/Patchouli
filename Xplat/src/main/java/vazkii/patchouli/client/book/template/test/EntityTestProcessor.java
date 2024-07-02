@@ -16,7 +16,7 @@ public class EntityTestProcessor implements IComponentProcessor {
 
 	@Override
 	public void setup(Level level, IVariableProvider variables) {
-		String entityType = variables.get("entity").unwrap().getAsString();
+		String entityType = variables.get("entity", level.registryAccess()).unwrap().getAsString();
 		if (entityType.contains("{")) {
 			entityType = entityType.substring(0, entityType.indexOf("{"));
 		}

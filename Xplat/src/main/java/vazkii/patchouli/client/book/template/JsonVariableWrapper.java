@@ -3,6 +3,8 @@ package vazkii.patchouli.client.book.template;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import net.minecraft.core.HolderLookup;
+
 import vazkii.patchouli.api.IVariable;
 import vazkii.patchouli.api.IVariableProvider;
 
@@ -15,13 +17,13 @@ public final class JsonVariableWrapper implements IVariableProvider {
 	}
 
 	@Override
-	public IVariable get(String key) {
+	public IVariable get(String key, HolderLookup.Provider registries) {
 		JsonElement prim = source.get(key);
 		if (prim == null) {
 			throw new IllegalArgumentException("Attempted to get variable " + key + " when it's not present");
 		}
 
-		return IVariable.wrap(prim);
+		return IVariable.wrap(prim, registries);
 	}
 
 	@Override

@@ -6,7 +6,7 @@ pipeline {
     }
     agent any
     tools {
-        jdk "jdk-17.0.1"
+        jdk "jdk-21.0.2"
     }
     stages {
         stage('Clean') {
