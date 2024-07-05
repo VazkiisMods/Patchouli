@@ -9,7 +9,7 @@ import java.util.function.BiConsumer;
 
 public class PatchouliDataComponents {
 
-	public static final ResourceLocation COMPONENT_ID = new ResourceLocation(PatchouliAPI.MOD_ID, "book");
+	public static final ResourceLocation COMPONENT_ID = ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "book");
 	public static final DataComponentType<ResourceLocation> BOOK = DataComponentType.<ResourceLocation>builder()
 			.persistent(ResourceLocation.CODEC)
 			.networkSynchronized(ResourceLocation.STREAM_CODEC)

@@ -10,8 +10,8 @@ import java.util.function.BiConsumer;
 
 public class PatchouliSounds {
 
-	public static final SoundEvent BOOK_OPEN = SoundEvent.createVariableRangeEvent(new ResourceLocation(PatchouliAPI.MOD_ID, "book_open"));
-	public static final SoundEvent BOOK_FLIP = SoundEvent.createVariableRangeEvent(new ResourceLocation(PatchouliAPI.MOD_ID, "book_flip"));
+	public static final SoundEvent BOOK_OPEN = SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "book_open"));
+	public static final SoundEvent BOOK_FLIP = SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "book_flip"));
 
 	public static void submitRegistrations(BiConsumer<ResourceLocation, SoundEvent> e) {
 		e.accept(BOOK_OPEN.getLocation(), BOOK_OPEN);

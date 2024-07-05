@@ -39,7 +39,7 @@ public class BookFolderLoader {
 		for (File dir : subdirs) {
 			ResourceLocation res;
 			try {
-				res = new ResourceLocation(PatchouliAPI.MOD_ID, dir.getName());
+				res = ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, dir.getName());
 			} catch (ResourceLocationException ex) {
 				PatchouliAPI.LOGGER.error("Invalid external book folder name {}, skipping", dir.getName(), ex);
 				continue;

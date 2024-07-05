@@ -3,7 +3,6 @@ package vazkii.patchouli.fabric.client;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
-import net.fabricmc.fabric.api.client.model.loading.v1.ModelModifier;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
@@ -12,8 +11,6 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -36,8 +33,6 @@ import vazkii.patchouli.fabric.network.FabricMessageReloadBookContents;
 import vazkii.patchouli.network.MessageOpenBookGui;
 import vazkii.patchouli.network.MessageReloadBookContents;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
@@ -57,16 +52,19 @@ public class FabricClientInitializer implements ClientModInitializer {
 
 		ModelLoadingPlugin.register(pluginContext -> {
 			for (Book book : BookRegistry.INSTANCE.books.values()) {
-				pluginContext.addModels(new ModelResourceLocation(book.model, "inventory"));
+				PatchouliAPI.LOGGER.info("Adding model {}", book.model);
+				pluginContext.addModels(book.model);
 			}
 
 			pluginContext.modifyModelAfterBake().register(
-					(@Nullable BakedModel oldModel, ModelModifier.AfterBake.Context ctx) -> {
-						if (ctx.id() instanceof ModelResourceLocation key
-								&& PatchouliItems.BOOK_ID.equals(key) // checks namespace and path
-								&& key.getVariant().equals("inventory")
+					(oldModel, ctx) -> {
+						if (ctx.topLevelId() != null &&
+								PatchouliItems.BOOK_ID.equals(ctx.topLevelId().id()) // checks namespace and path
+								&& ctx.topLevelId().getVariant().equals("inventory")
 								&& oldModel != null) {
-							return new BookModel(oldModel, ctx.loader());
+							return new BookModel(oldModel, ctx.loader(), (model) -> {
+								return Minecraft.getInstance().getModelManager().getModel(model);
+							});
 						}
 						return oldModel;
 					}
@@ -74,11 +72,11 @@ public class FabricClientInitializer implements ClientModInitializer {
 		});
 
 		ItemProperties.register(PatchouliItems.BOOK,
-				new ResourceLocation(PatchouliAPI.MOD_ID, "completion"),
+				ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "completion"),
 				(stack, world, entity, seed) -> ItemModBook.getCompletion(stack));
 
 		ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new IdentifiableResourceReloadListener() {
-			private static final ResourceLocation id = new ResourceLocation(PatchouliAPI.MOD_ID, "resource_pack_books");
+			private static final ResourceLocation id = ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "resource_pack_books");
 
 			@Override
 			public CompletableFuture<Void> reload(PreparationBarrier barrier, ResourceManager manager, ProfilerFiller preparationsProfiler, ProfilerFiller reloadProfiler, Executor backgroundExecutor, Executor gameExecutor) {
@@ -91,7 +89,7 @@ public class FabricClientInitializer implements ClientModInitializer {
 			}
 		});
 		ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new SimpleSynchronousResourceReloadListener() {
-			private static final ResourceLocation id = new ResourceLocation(PatchouliAPI.MOD_ID, "reload_hook");
+			private static final ResourceLocation id = ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "reload_hook");
 
 			@Override
 			public ResourceLocation getFabricId() {

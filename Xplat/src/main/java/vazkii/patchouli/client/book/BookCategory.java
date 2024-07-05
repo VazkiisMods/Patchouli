@@ -155,7 +155,7 @@ public final class BookCategory extends AbstractReadStateHolder implements Compa
 
 		if (!isRootCategory()) {
 			if (parent.contains(":")) {
-				var parentCat = builder.getCategory(new ResourceLocation(parent));
+				var parentCat = builder.getCategory(ResourceLocation.tryParse(parent));
 				if (parentCat == null) {
 					var msg = String.format("Category %s specifies parent %s, but it could not be found", id, parent);
 					throw new RuntimeException(msg);

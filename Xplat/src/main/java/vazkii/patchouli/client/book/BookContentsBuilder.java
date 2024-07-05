@@ -124,7 +124,7 @@ public class BookContentsBuilder {
 		for (ResourceLocation id : foundIds) {
 			String filePath = String.format("%s/%s/%s/%s/%s.json",
 					BookRegistry.BOOKS_LOCATION, book.id.getPath(), DEFAULT_LANG, thing, id.getPath());
-			T value = loader.load(book, contentLoader, id, new ResourceLocation(id.getNamespace(), filePath));
+			T value = loader.load(book, contentLoader, id, ResourceLocation.fromNamespaceAndPath(id.getNamespace(), filePath));
 			if (value != null) {
 				builder.put(id, value);
 			}
@@ -180,7 +180,7 @@ public class BookContentsBuilder {
 	}
 
 	private static BookContentLoader.LoadResult loadLocalizedJson(Book book, BookContentLoader loader, ResourceLocation file) {
-		ResourceLocation localizedFile = new ResourceLocation(file.getNamespace(),
+		ResourceLocation localizedFile = ResourceLocation.fromNamespaceAndPath(file.getNamespace(),
 				file.getPath().replaceAll(DEFAULT_LANG, ClientBookRegistry.INSTANCE.currentLang));
 
 		BookContentLoader.LoadResult input = loader.loadJson(book, localizedFile);

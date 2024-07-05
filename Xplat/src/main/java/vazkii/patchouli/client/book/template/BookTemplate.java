@@ -29,15 +29,15 @@ public class BookTemplate {
 	public static final HashMap<ResourceLocation, Class<? extends TemplateComponent>> componentTypes = new HashMap<>();
 
 	static {
-		registerComponent(new ResourceLocation(PatchouliAPI.MOD_ID, "text"), ComponentText.class);
-		registerComponent(new ResourceLocation(PatchouliAPI.MOD_ID, "item"), ComponentItemStack.class);
-		registerComponent(new ResourceLocation(PatchouliAPI.MOD_ID, "image"), ComponentImage.class);
-		registerComponent(new ResourceLocation(PatchouliAPI.MOD_ID, "header"), ComponentHeader.class);
-		registerComponent(new ResourceLocation(PatchouliAPI.MOD_ID, "separator"), ComponentSeparator.class);
-		registerComponent(new ResourceLocation(PatchouliAPI.MOD_ID, "frame"), ComponentFrame.class);
-		registerComponent(new ResourceLocation(PatchouliAPI.MOD_ID, "entity"), ComponentEntity.class);
-		registerComponent(new ResourceLocation(PatchouliAPI.MOD_ID, "tooltip"), ComponentTooltip.class);
-		registerComponent(new ResourceLocation(PatchouliAPI.MOD_ID, "custom"), ComponentCustom.class);
+		registerComponent(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "text"), ComponentText.class);
+		registerComponent(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "item"), ComponentItemStack.class);
+		registerComponent(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "image"), ComponentImage.class);
+		registerComponent(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "header"), ComponentHeader.class);
+		registerComponent(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "separator"), ComponentSeparator.class);
+		registerComponent(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "frame"), ComponentFrame.class);
+		registerComponent(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "entity"), ComponentEntity.class);
+		registerComponent(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "tooltip"), ComponentTooltip.class);
+		registerComponent(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "custom"), ComponentCustom.class);
 	}
 
 	@SerializedName("include") List<TemplateInclusion> inclusions = new ArrayList<>();
@@ -60,9 +60,9 @@ public class BookTemplate {
 	public static BookTemplate createTemplate(Book book, BookContentsBuilder builder, String type, @Nullable TemplateInclusion inclusion) {
 		ResourceLocation key;
 		if (type.contains(":")) {
-			key = new ResourceLocation(type);
+			key = ResourceLocation.tryParse(type);
 		} else {
-			key = new ResourceLocation(book.id.getNamespace(), type);
+			key = ResourceLocation.fromNamespaceAndPath(book.id.getNamespace(), type);
 		}
 
 		Supplier<BookTemplate> supplier = builder.getTemplate(key);

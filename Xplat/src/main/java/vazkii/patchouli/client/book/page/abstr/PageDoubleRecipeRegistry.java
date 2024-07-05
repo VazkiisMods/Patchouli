@@ -35,7 +35,7 @@ public abstract class PageDoubleRecipeRegistry<T extends Recipe<?>> extends Page
 
 		T tempRecipe = getRecipe(level, res);
 		if (tempRecipe == null) { // this is hacky but it works around Forge requiring custom recipes to have the prefix of the adding mod
-			tempRecipe = getRecipe(level, new ResourceLocation("crafttweaker", res.getPath()));
+			tempRecipe = getRecipe(level, ResourceLocation.fromNamespaceAndPath("crafttweaker", res.getPath()));
 		}
 
 		if (tempRecipe != null) {

@@ -2,6 +2,7 @@ package vazkii.patchouli.client.handler;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
@@ -74,19 +75,18 @@ public class TooltipHandler {
 					RenderSystem.enableBlend();
 					RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-					BufferBuilder buf = Tesselator.getInstance().getBuilder();
-					buf.begin(Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
+					BufferBuilder buf = Tesselator.getInstance().begin(Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
 
 					float a = 0.5F + 0.2F * ((float) Math.cos(ClientTicker.total / 10) * 0.5F + 0.5F);
-					buf.vertex(cx, cy, 0).color(0F, 0.5F, 0F, a).endVertex();
+					buf.addVertex(cx, cy, 0).setColor(0F, 0.5F, 0F, a);
 
 					for (float i = angles; i > 0; i--) {
 						double rad = (i - 90) / 180F * Math.PI;
-						buf.vertex(cx + Math.cos(rad) * r, cy + Math.sin(rad) * r, 0).color(0F, 1F, 0F, 1F).endVertex();
+						buf.addVertex((float) (cx + Math.cos(rad) * r), (float) (cy + Math.sin(rad) * r), 0).setColor(0F, 1F, 0F, 1F);
 					}
 
-					buf.vertex(cx, cy, 0).color(0F, 1F, 0F, 0F).endVertex();
-					Tesselator.getInstance().end();
+					buf.addVertex(cx, cy, 0).setColor(0F, 1F, 0F, 0F);
+					BufferUploader.drawWithShader(buf.buildOrThrow());
 
 					RenderSystem.disableBlend();
 

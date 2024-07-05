@@ -31,7 +31,7 @@ public sealed interface BookIcon permits BookIcon.StackIcon, BookIcon.TextureIco
 
 	static BookIcon from(String str) {
 		if (str.endsWith(".png")) {
-			return new TextureIcon(new ResourceLocation(str));
+			return new TextureIcon(ResourceLocation.tryParse(str));
 		} else {
 			try {
 				ItemStack stack = ItemStackUtil.loadStackFromString(str, RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY));

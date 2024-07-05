@@ -10,6 +10,7 @@
   "client": [
     "client.AccessorClientAdvancements",
     "client.AccessorKeyMapping",
+    "client.AccessorModelBakery",
     "client.AccessorMultiBufferSource",
     "client.AccessorScreen",
     "client.MixinClientAdvancements",

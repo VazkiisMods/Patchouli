@@ -25,7 +25,7 @@ public final class SerializationUtil {
 
 	public static ResourceLocation getAsResourceLocation(JsonObject object, String key, @Nullable ResourceLocation fallback) {
 		if (object.has(key)) {
-			return new ResourceLocation(GsonHelper.convertToString(object.get(key), key));
+			return ResourceLocation.tryParse(GsonHelper.convertToString(object.get(key), key));
 		} else {
 			return fallback;
 		}

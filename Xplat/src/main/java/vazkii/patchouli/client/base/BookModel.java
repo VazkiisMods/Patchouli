@@ -1,6 +1,5 @@
 package vazkii.patchouli.client.base;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockModel;
@@ -17,6 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import vazkii.patchouli.common.book.Book;
 import vazkii.patchouli.common.item.ItemModBook;
+import vazkii.patchouli.mixin.client.AccessorModelBakery;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,18 +29,28 @@ public class BookModel implements BakedModel {
 	private final BakedModel original;
 	private final ItemOverrides itemHandler;
 
-	public BookModel(BakedModel original, ModelBakery loader) {
+	public BookModel(BakedModel original, ModelBakery loader, Function<ResourceLocation, BakedModel> modelGetter) {
 		this.original = original;
-		BlockModel missing = (BlockModel) loader.getModel(ModelBakery.MISSING_MODEL_LOCATION);
+		BlockModel missing = (BlockModel) ((AccessorModelBakery) loader).invokeGetModel(ModelBakery.MISSING_MODEL_LOCATION);
 
 		this.itemHandler = new ItemOverrides(new ModelBaker() {
-			// soft implement IForgeModelBaker
+			// soft implement IModelBakerExtension
 			public Function<Material, TextureAtlasSprite> getModelTextureGetter() {
 				return null;
 			}
 
-			// soft implement IForgeModelBaker
+			// soft implement IModelBakerExtension
 			public BakedModel bake(ResourceLocation location, ModelState state, Function<Material, TextureAtlasSprite> sprites) {
+				return null;
+			}
+
+			// soft implement IModelBakerExtension
+			public BakedModel bakeUncached(UnbakedModel model, ModelState state, Function<Material, TextureAtlasSprite> sprites) {
+				return null;
+			}
+
+			// soft implement IModelBakerExtension
+			public UnbakedModel getTopLevelModel(ModelResourceLocation location) {
 				return null;
 			}
 
@@ -60,8 +70,7 @@ public class BookModel implements BakedModel {
 					@Nullable ClientLevel world, @Nullable LivingEntity entity, int seed) {
 				Book book = ItemModBook.getBook(stack);
 				if (book != null) {
-					ModelResourceLocation modelPath = new ModelResourceLocation(book.model, "inventory");
-					return Minecraft.getInstance().getModelManager().getModel(modelPath);
+					return modelGetter.apply(book.model);
 				}
 				return original;
 			}

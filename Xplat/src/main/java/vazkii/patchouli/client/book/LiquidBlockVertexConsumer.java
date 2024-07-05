@@ -12,50 +12,41 @@ import net.minecraft.core.BlockPos;
 public record LiquidBlockVertexConsumer(VertexConsumer prior, PoseStack pose, BlockPos pos) implements VertexConsumer {
 
 	@Override
-	public VertexConsumer vertex(double x, double y, double z) {
+	public VertexConsumer addVertex(float x, float y, float z) {
 		final float dx = pos.getX() & 15;
 		final float dy = pos.getY() & 15;
 		final float dz = pos.getZ() & 15;
-		return prior.vertex(pose.last().pose(), (float) x - dx, (float) y - dy, (float) z - dz);
+		return prior.addVertex(pose.last().pose(), x - dx, y - dy, z - dz);
 	}
 
 	@Override
-	public VertexConsumer color(int r, int g, int b, int a) {
-		return prior.color(r, g, b, a);
+	public VertexConsumer setColor(int r, int g, int b, int a) {
+		return prior.setColor(r, g, b, a);
 	}
 
 	@Override
-	public VertexConsumer uv(float u, float v) {
-		return prior.uv(u, v);
+	public VertexConsumer setUv(float u, float v) {
+		return prior.setUv(u, v);
 	}
 
 	@Override
-	public VertexConsumer overlayCoords(int u, int v) {
-		return prior.overlayCoords(u, v);
+	public VertexConsumer setUv1(int u, int v) {
+		return prior.setUv1(u, v);
 	}
 
 	@Override
-	public VertexConsumer uv2(int u, int v) {
-		return prior.uv2(u, v);
+	public VertexConsumer setOverlay(int uv) {
+		return prior.setUv1(uv & 65535, uv >> 16 & 65535);
 	}
 
 	@Override
-	public VertexConsumer normal(float x, float y, float z) {
-		return prior.normal(pose.last(), x, y, z);
+	public VertexConsumer setUv2(int u, int v) {
+		return prior.setUv2(u, v);
 	}
 
 	@Override
-	public void endVertex() {
-		prior.endVertex();
+	public VertexConsumer setNormal(float x, float y, float z) {
+		return prior.setNormal(pose.last(), x, y, z);
 	}
 
-	@Override
-	public void defaultColor(int r, int g, int b, int a) {
-		prior.defaultColor(r, g, b, a);
-	}
-
-	@Override
-	public void unsetDefaultColor() {
-		prior.unsetDefaultColor();
-	}
 }

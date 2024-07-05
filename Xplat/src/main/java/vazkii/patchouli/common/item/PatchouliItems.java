@@ -9,7 +9,7 @@ import java.util.function.BiConsumer;
 
 public class PatchouliItems {
 
-	public static final ResourceLocation BOOK_ID = new ResourceLocation(PatchouliAPI.MOD_ID, "guide_book");
+	public static final ResourceLocation BOOK_ID = ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "guide_book");
 	public static final Item BOOK = new ItemModBook();
 
 	public static void submitItemRegistrations(BiConsumer<ResourceLocation, Item> consumer) {

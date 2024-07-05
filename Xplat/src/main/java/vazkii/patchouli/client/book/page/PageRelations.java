@@ -30,7 +30,7 @@ public class PageRelations extends PageWithText {
 
 		this.entryObjs = new ArrayList<>();
 		for (String s : this.entries) {
-			ResourceLocation targetId = new ResourceLocation(s);
+			ResourceLocation targetId = ResourceLocation.tryParse(s);
 			BookEntry targetEntry = builder.getEntry(targetId);
 			if (targetEntry == null) {
 				throw new IllegalArgumentException("Could not find entry " + targetId);

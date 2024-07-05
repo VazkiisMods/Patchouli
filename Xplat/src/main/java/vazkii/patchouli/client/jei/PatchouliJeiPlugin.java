@@ -22,7 +22,7 @@ import java.util.Map;
 
 @JeiPlugin
 public class PatchouliJeiPlugin implements IModPlugin {
-	private static final ResourceLocation UID = new ResourceLocation(PatchouliAPI.MOD_ID, PatchouliAPI.MOD_ID);
+	private static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, PatchouliAPI.MOD_ID);
 
 	private static final KeyMapping showRecipe, showUses;
 

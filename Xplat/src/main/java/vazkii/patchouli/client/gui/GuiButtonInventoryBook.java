@@ -30,7 +30,7 @@ public class GuiButtonInventoryBook extends Button {
 		graphics.setColor(1F, 1F, 1F, 1F);
 
 		boolean hovered = mouseX >= getX() && mouseY >= getY() && mouseX < getX() + width && mouseY < getY() + height;
-		graphics.blit(new ResourceLocation(PatchouliAPI.MOD_ID, "textures/gui/inventory_button.png"), getX(), getY(), (hovered ? 20 : 0), 0, width, height, 64, 64);
+		graphics.blit(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "textures/gui/inventory_button.png"), getX(), getY(), (hovered ? 20 : 0), 0, width, height, 64, 64);
 
 		ItemStack stack = book.getBookItem();
 		graphics.renderItem(stack, getX() + 2, getY() + 2);
