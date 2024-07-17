@@ -30,7 +30,7 @@ public abstract class PageWithText extends BookPage {
 	@Override
 	public void render(GuiGraphics graphics, int mouseX, int mouseY, float pticks) {
 		if (shouldRenderText()) {
-			textRender.render(graphics, mouseX, mouseY);
+			textRender.render(graphics, mouseX, mouseY, pticks);
 		}
 	}
 

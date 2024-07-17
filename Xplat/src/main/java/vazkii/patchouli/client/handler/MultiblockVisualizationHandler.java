@@ -165,9 +165,9 @@ public class MultiblockVisualizationHandler {
 		}
 	}
 
-	public static void onWorldRenderLast(PoseStack ms) {
+	public static void onWorldRenderLast(PoseStack ms, Matrix4f pose) {
 		if (hasMultiblock && multiblock != null) {
-			renderMultiblock(Minecraft.getInstance().level, ms);
+			renderMultiblock(Minecraft.getInstance().level, ms, pose);
 		}
 	}
 
@@ -198,7 +198,8 @@ public class MultiblockVisualizationHandler {
 		}
 	}
 
-	public static void renderMultiblock(Level world, PoseStack ms) {
+	public static void renderMultiblock(Level world, PoseStack ms, Matrix4f pose) {
+		ms.mulPose(pose);
 		Minecraft mc = Minecraft.getInstance();
 		if (!isAnchored) {
 			facingRotation = getRotation(mc.player);

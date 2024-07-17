@@ -26,14 +26,15 @@ public class GuiBookWriter extends GuiBook {
 	public void init() {
 		super.init();
 
-		text = new BookTextRenderer(this, Component.translatable("patchouli.gui.lexicon.editor.info"), LEFT_PAGE_X, TOP_PADDING + 20);
-		textfield = new EditBox(font, 10, FULL_HEIGHT - 40, PAGE_WIDTH, 20, Component.empty());
-		textfield.setMaxLength(Integer.MAX_VALUE);
-		textfield.setValue(savedText);
+		this.text = new BookTextRenderer(this, Component.translatable("patchouli.gui.lexicon.editor.info"), LEFT_PAGE_X, TOP_PADDING + 20);
+		this.textfield = new EditBox(font, 15, FULL_HEIGHT - 40, PAGE_WIDTH, 20, textfield, Component.empty());
+		this.textfield.setMaxLength(Integer.MAX_VALUE);
+		if (this.textfield.getValue().isEmpty()) {
+			this.textfield.setValue(savedText);
+		}
+		this.editableText = new BookTextRenderer(this, Component.literal(""), RIGHT_PAGE_X, TOP_PADDING + (drawHeader ? 22 : -4));
 
-		var button = new GuiButtonBook(this, bookLeft + 115, bookTop + PAGE_HEIGHT - 36, 330, 9, 11, 11, this::handleToggleHeaderButton,
-				Component.translatable("patchouli.gui.lexicon.button.toggle_mock_header"));
-		addRenderableWidget(button);
+		addRenderableWidget(new GuiButtonBook(this, bookLeft + 115, bookTop + PAGE_HEIGHT - 36, 330, 9, 11, 11, this::handleToggleHeaderButton, Component.translatable("patchouli.gui.lexicon.button.toggle_mock_header")));
 		refreshText();
 	}
 
@@ -50,16 +51,23 @@ public class GuiBookWriter extends GuiBook {
 		}
 
 		textfield.render(graphics, mouseX, mouseY, partialTicks);
-		text.render(graphics, mouseX, mouseY);
-		editableText.render(graphics, mouseX, mouseY);
+		text.render(graphics, mouseX, mouseY, partialTicks);
+		editableText.render(graphics, mouseX, mouseY, partialTicks);
 	}
 
 	@Override
 	public boolean mouseClickedScaled(double mouseX, double mouseY, int mouseButton) {
-		return textfield.mouseClicked(getRelativeX(mouseX), getRelativeY(mouseY), mouseButton)
-				|| text.click(mouseX, mouseY, mouseButton)
-				|| editableText.click(mouseX, mouseY, mouseButton)
-				|| super.mouseClickedScaled(mouseX, mouseY, mouseButton);
+		if (textfield.mouseClicked(getRelativeX(mouseX), getRelativeY(mouseY), mouseButton)) {
+			textfield.setFocused(true);
+			return true;
+		}
+		if (text.click(mouseX, mouseY, mouseButton)) {
+			return true;
+		}
+		if (editableText.click(mouseX, mouseY, mouseButton)) {
+			return true;
+		}
+		return super.mouseClickedScaled(mouseX, mouseY, mouseButton);
 	}
 
 	@Override
@@ -84,17 +92,15 @@ public class GuiBookWriter extends GuiBook {
 
 	private void handleToggleHeaderButton(Button button) {
 		drawHeader = !drawHeader;
-		refreshText();
+		init();
 	}
 
 	private void refreshText() {
-		int yPos = TOP_PADDING + (drawHeader ? 22 : -4);
-
 		savedText = textfield.getValue();
 		try {
-			editableText = new BookTextRenderer(this, Component.literal(savedText), RIGHT_PAGE_X, yPos);
+			editableText.setText(Component.literal(savedText));
 		} catch (Throwable e) {
-			editableText = new BookTextRenderer(this, Component.literal("[ERROR]"), RIGHT_PAGE_X, yPos);
+			editableText.setText(Component.literal("[ERROR]"));
 			PatchouliAPI.LOGGER.catching(e);
 		}
 	}

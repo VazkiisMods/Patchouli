@@ -92,7 +92,7 @@ public abstract class GuiBookEntryList extends GuiBook {
 			drawSeparator(graphics, book, LEFT_PAGE_X, TOP_PADDING + 12);
 			drawSeparator(graphics, book, RIGHT_PAGE_X, TOP_PADDING + 12);
 
-			text.render(graphics, mouseX, mouseY);
+			text.render(graphics, mouseX, mouseY, partialTicks);
 			if (shouldDrawProgressBar()) {
 				drawProgressBar(graphics, book, mouseX, mouseY, this::doesEntryCountForProgress);
 			}

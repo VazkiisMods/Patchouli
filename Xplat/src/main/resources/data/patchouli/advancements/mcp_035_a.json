@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "minecraft:mutton"
+      "id": "minecraft:mutton"
     },
     "title": {
       "translate": "Find a Sheep"

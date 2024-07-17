@@ -41,7 +41,7 @@ public record LiquidBlockVertexConsumer(VertexConsumer prior, PoseStack pose, Bl
 
 	@Override
 	public VertexConsumer normal(float x, float y, float z) {
-		return prior.normal(pose.last().normal(), x, y, z);
+		return prior.normal(pose.last(), x, y, z);
 	}
 
 	@Override

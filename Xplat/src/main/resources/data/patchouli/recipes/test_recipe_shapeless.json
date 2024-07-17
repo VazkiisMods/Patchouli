@@ -1,5 +1,5 @@
 {
-  "type": "patchouli:shapeless_book_recipe",
+  "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
       "item": "minecraft:gold_ingot"
@@ -8,5 +8,11 @@
       "item": "minecraft:dirt"
     }
   ],
-  "book": "patchouli:testbook1"
+  "result": {
+    "components": {
+      "patchouli:book": "patchouli:testbook1"
+    },
+    "count": 1,
+    "id": "patchouli:guide_book"
+  }
 }

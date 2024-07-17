@@ -97,5 +97,8 @@
 	"patchouli.gui.lexicon.button.visualize.info": "(Click again to clear)",
 	"patchouli.gui.lexicon.button.history": "History",
 	"patchouli.gui.lexicon.button.mark_all_read": "Mark all as read",
-	"patchouli.gui.lexicon.button.mark_category_read": "Mark this category as read"
+	"patchouli.gui.lexicon.button.mark_category_read": "Mark this category as read",
+
+	"patchouli.networking.open_book.failed": "Failed to open book %s",
+	"patchouli.networking.reload_contents.failed": "Failed to reload contents %S"
 }

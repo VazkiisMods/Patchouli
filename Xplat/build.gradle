@@ -3,7 +3,9 @@ plugins {
     id 'org.spongepowered.gradle.vanilla'
 }
 
-archivesBaseName = "${mod_name}-xplat"
+base {
+    archivesName = "${mod_name}-xplat"
+}
 version = "${mc_version}-${build_number}"
 if (System.getenv().RELEASE_MODE == null) {
     version += '-SNAPSHOT'
@@ -25,7 +27,7 @@ repositories {
 
 dependencies {
     compileOnly group: 'org.spongepowered', name: 'mixin', version: '0.8.5'
-    compileOnly "mezz.jei:jei-1.20.1-common-api:15.2.0.27"
+    compileOnly "mezz.jei:jei-1.20.6-common-api:18.0.0.62"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.1'
 }

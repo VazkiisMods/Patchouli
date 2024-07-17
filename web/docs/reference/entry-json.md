@@ -97,3 +97,7 @@ starting path.
 Additional list of items this page teaches the crafting process for, for use with the
 in-world right click and quick lookup feature. Keys are ItemStack strings, values are
 0-indexed page numbers.
+
+## **entry_color** (String)
+
+The color of the link to this entry from its category, in hex ("RRGGBB", # not necessary). Defaults to [`book.text_color`](book-json.md#text_color-string).

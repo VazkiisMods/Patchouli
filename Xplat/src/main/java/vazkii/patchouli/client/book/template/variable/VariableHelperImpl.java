@@ -2,6 +2,7 @@ package vazkii.patchouli.client.book.template.variable;
 
 import com.google.gson.JsonElement;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -44,11 +45,11 @@ public class VariableHelperImpl implements VariableHelper {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public <T> IVariable createFromObject(T object) {
+	public <T> IVariable createFromObject(T object, HolderLookup.Provider registries) {
 		Class<?> clazz = object.getClass();
 		for (Entry<Class<?>, IVariableSerializer<?>> e : serializers.entrySet()) {
 			if (e.getKey().isAssignableFrom(clazz)) {
-				return create(((IVariableSerializer<T>) e.getValue()).toJson(object), clazz);
+				return create(((IVariableSerializer<T>) e.getValue()).toJson(object, registries), clazz, registries);
 			}
 		}
 
@@ -56,12 +57,12 @@ public class VariableHelperImpl implements VariableHelper {
 	}
 
 	@Override
-	public IVariable createFromJson(JsonElement elem) {
-		return create(elem, null);
+	public IVariable createFromJson(JsonElement elem, HolderLookup.Provider registries) {
+		return create(elem, null, registries);
 	}
 
-	private IVariable create(JsonElement elem, Class<?> originator) {
-		return new Variable(elem, originator);
+	private IVariable create(JsonElement elem, Class<?> originator, HolderLookup.Provider registries) {
+		return new Variable(elem, originator, registries);
 	}
 
 	@Override

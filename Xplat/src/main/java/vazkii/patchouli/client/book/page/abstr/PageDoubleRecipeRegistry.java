@@ -23,7 +23,8 @@ public abstract class PageDoubleRecipeRegistry<T extends Recipe<?>> extends Page
 	@Nullable
 	private T getRecipe(Level level, ResourceLocation id) {
 		RecipeManager manager = level.getRecipeManager();
-		return (T) manager.byKey(id).filter(recipe -> recipe.getType() == recipeType).orElse(null);
+		var recipeHolder = manager.byKey(id).filter(recipe -> recipe.value().getType() == recipeType).orElse(null);
+		return recipeHolder != null ? (T) recipeHolder.value() : null;
 	}
 
 	@Override

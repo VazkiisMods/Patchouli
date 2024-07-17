@@ -34,13 +34,11 @@ public class GuiButtonBook extends Button {
 	}
 
 	@Override
-	public final void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-		active = visible = displayCondition.get();
-		super.render(graphics, mouseX, mouseY, partialTicks);
-	}
-
-	@Override
 	public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+		active = displayCondition.get();
+		if (!active) {
+			return;
+		}
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 		GuiBook.drawFromTexture(graphics, parent.book, getX(), getY(), u + (isHoveredOrFocused() ? width : 0), v, width, height);
 		if (isHoveredOrFocused()) {

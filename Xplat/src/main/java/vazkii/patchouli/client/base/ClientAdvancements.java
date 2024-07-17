@@ -1,8 +1,6 @@
 package vazkii.patchouli.client.base;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
-import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -44,9 +42,9 @@ public class ClientAdvancements {
 			ClientPacketListener conn = Minecraft.getInstance().getConnection();
 			if (conn != null) {
 				net.minecraft.client.multiplayer.ClientAdvancements cm = conn.getAdvancements();
-				Advancement adv = cm.getAdvancements().get(id);
+				AdvancementHolder adv = cm.get(id);
 				if (adv != null) {
-					Map<Advancement, AdvancementProgress> progressMap = ((AccessorClientAdvancements) cm).getProgress();
+					Map<AdvancementHolder, AdvancementProgress> progressMap = ((AccessorClientAdvancements) cm).getProgress();
 					AdvancementProgress progress = progressMap.get(adv);
 					return progress != null && progress.isDone();
 				}
@@ -67,6 +65,7 @@ public class ClientAdvancements {
 	}
 
 	public static class LexiconToast implements Toast {
+		private static final ResourceLocation BACKGROUND_SPRITE = new ResourceLocation("toast/advancement");
 		private final Book book;
 
 		public LexiconToast(Book book) {
@@ -82,14 +81,11 @@ public class ClientAdvancements {
 		@NotNull
 		@Override
 		public Visibility render(GuiGraphics graphics, ToastComponent toastGui, long delta) {
-			RenderSystem.setShaderTexture(0, TEXTURE);
-
-			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-			graphics.blit(TEXTURE, 0, 0, 0, 32, 160, 32);
+			graphics.blitSprite(BACKGROUND_SPRITE, 0, 0, width(), height());
 
 			Font font = toastGui.getMinecraft().font;
-			graphics.drawString(font, Component.translatable(book.name), 30, 7, -11534256, false);
-			graphics.drawString(font, Component.translatable("patchouli.gui.lexicon.toast.info"), 30, 17, -16777216, false);
+			graphics.drawString(font, Component.translatable(book.name), 30, 7, 0xfff000f0, false);
+			graphics.drawString(font, Component.translatable("patchouli.gui.lexicon.toast.info"), 30, 17, 0xffffffff, false);
 
 			graphics.renderItem(book.getBookItem(), 8, 8);
 			graphics.renderItemDecorations(font, book.getBookItem(), 8, 8);

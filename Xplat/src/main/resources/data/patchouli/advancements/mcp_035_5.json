@@ -1,6 +1,6 @@
 {
   "display": {
-    "icon": { "item": "minecraft:lime_wool" },
+    "icon": { "id": "minecraft:lime_wool" },
     "title": { "translate": "Lime Wool" },
     "description": { "translate": "The MCP Foundation requires you to obtain this." }
   },

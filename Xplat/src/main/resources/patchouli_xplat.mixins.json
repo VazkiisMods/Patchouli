@@ -1,8 +1,8 @@
 {
   "required": true,
-  "minVersion": "0.8",
+  "minVersion": "0.8.4",
   "package": "vazkii.patchouli.mixin",
-  "compatibilityLevel": "JAVA_17",
+  "compatibilityLevel": "JAVA_21",
   "mixins": [
     "AccessorSmithingTransformRecipe",
     "AccessorSmithingTrimRecipe"

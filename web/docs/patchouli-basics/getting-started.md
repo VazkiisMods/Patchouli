@@ -2,6 +2,9 @@
 sidebar_position: 1
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Getting Started
 
 This entry serves as a quick guide of what to do to get started making your own Patchouli
@@ -117,6 +120,9 @@ Within that folder, create the following structure:
 
 Open `test_entry.json` and `test_category.json` and fill them in as follows:
 
+<Tabs groupId="book-type">
+<TabItem value="mod" label="Mod" default>
+
 ```json title="test_entry.json"
 {
     "name": "Test Entry",
@@ -131,11 +137,31 @@ Open `test_entry.json` and `test_category.json` and fill them in as follows:
 }
 ```
 
+</TabItem>
+<TabItem value="modpack" label="Modpack">
+
+```json title="test_entry.json"
+{
+    "name": "Test Entry",
+    "icon": "minecraft:writable_book",
+    "category": "patchouli:test_category",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "text": "This is a test entry, but it should show up!"
+        }
+    ]
+}
+```
+
+</TabItem>
+</Tabs>
+
 ```json title="test_category.json"
 {
-	"name": "Test Category",
-	"description": "This is a test category for testing!",
-	"icon": "minecraft:writable_book"
+    "name": "Test Category",
+    "description": "This is a test category for testing!",
+    "icon": "minecraft:writable_book"
 }
 ```
 
@@ -144,6 +170,18 @@ You'll need to edit the "category" key in the test entry to have the right names
 Save your files, then return ingame and open your book. Shift-click the pencil in the
 bottom-left corner. When you do so, it will reload the book contents, and you should see
 the category and entry you just defined appear.
+
+:::caution Important note for modpack authors
+
+The namespace is always `patchouli` for IDs of books/categories/entries in
+`.minecraft/patchouli_books` (i.e. modpack books). For example, with the above structure,
+you would need to use the following IDs:
+
+* Book: `patchouli:_YOURBOOKNAME_`
+* Category: `patchouli:test_category`
+* Entry: `patchouli:test_entry`
+
+:::
 
 ### 6. Learn More!
 

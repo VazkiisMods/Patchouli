@@ -134,7 +134,6 @@ public abstract class GuiBook extends Screen {
 
 	private void drawScreenAfterScale(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
 		resetTooltip();
-		renderBackground(graphics);
 
 		graphics.pose().pushPose();
 		graphics.pose().translate(bookLeft, bookTop, 0);
@@ -148,6 +147,11 @@ public abstract class GuiBook extends Screen {
 		IXplatAbstractions.INSTANCE.fireDrawBookScreen(this.book.id, this, mouseX, mouseY, partialTicks, graphics);
 
 		drawTooltip(graphics, mouseX, mouseY);
+	}
+
+	@Override
+	public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+
 	}
 
 	public void addBookmarkButtons() {
@@ -341,10 +345,10 @@ public abstract class GuiBook extends Screen {
 	}
 
 	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double scroll) {
-		if (scroll < 0) {
+	public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+		if (scrollX < 0) {
 			changePage(false, true);
-		} else if (scroll > 0) {
+		} else if (scrollX > 0) {
 			changePage(true, true);
 		}
 

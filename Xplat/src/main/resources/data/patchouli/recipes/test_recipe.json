@@ -1,5 +1,5 @@
 {
-  "type": "patchouli:shaped_book_recipe",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "##"
   ],
@@ -8,5 +8,11 @@
       "item": "minecraft:dirt"
     }
   },
-  "book": "patchouli:comprehensive_test_book"
+  "result": {
+    "components": {
+      "patchouli:book": "patchouli:comprehensive_test_book"
+    },
+    "count": 1,
+    "id": "patchouli:guide_book"
+  }
 }

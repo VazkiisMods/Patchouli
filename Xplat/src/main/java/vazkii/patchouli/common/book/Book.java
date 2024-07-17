@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.data.registries.VanillaRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
@@ -158,7 +159,7 @@ public class Book {
 		if (noBook) {
 			// Parse on load to catch errors, but need lazy loading for mods
 			// that load after Patchouli
-			var parsed = ItemStackUtil.parseItemStackString(customBookItem);
+			var parsed = ItemStackUtil.deserializeStack(customBookItem, VanillaRegistries.createLookup());
 			bookItem = Suppliers.memoize(() -> ItemStackUtil.loadFromParsed(parsed));
 		} else {
 			bookItem = Suppliers.memoize(() -> ItemModBook.forBook(id));

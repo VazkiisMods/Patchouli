@@ -1,6 +1,6 @@
 package vazkii.patchouli.client.gui;
 
-import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.advancements.AdvancementsScreen;
 import net.minecraft.resources.ResourceLocation;
@@ -15,8 +15,8 @@ public class GuiAdvancementsExt extends AdvancementsScreen {
 		super(manager);
 		this.parent = parent;
 
-		Advancement start = manager.getAdvancements().get(tab);
-		if (start != null && ClientAdvancements.hasDone(start.getId().toString())) {
+		AdvancementHolder start = manager.get(tab);
+		if (start != null && ClientAdvancements.hasDone(start.id().toString())) {
 			manager.setSelectedTab(start, false);
 		}
 	}

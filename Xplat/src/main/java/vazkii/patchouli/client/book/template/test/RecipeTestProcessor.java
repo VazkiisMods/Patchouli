@@ -18,9 +18,9 @@ public class RecipeTestProcessor implements IComponentProcessor {
 	@Override
 	public void setup(Level level, IVariableProvider variables) {
 		// TODO probably add a recipe serializer?
-		String recipeId = variables.get("recipe").asString();
+		String recipeId = variables.get("recipe", level.registryAccess()).asString();
 		RecipeManager manager = level.getRecipeManager();
-		recipe = manager.byKey(new ResourceLocation(recipeId)).orElseThrow(IllegalArgumentException::new);
+		recipe = manager.byKey(new ResourceLocation(recipeId)).orElseThrow(IllegalArgumentException::new).value();
 	}
 
 	@Override
@@ -31,7 +31,7 @@ public class RecipeTestProcessor implements IComponentProcessor {
 			ItemStack[] stacks = ingredient.getItems();
 			ItemStack stack = stacks.length == 0 ? ItemStack.EMPTY : stacks[0];
 
-			return IVariable.from(stack);
+			return IVariable.from(stack, level.registryAccess());
 		} else if (key.equals("text")) {
 			ItemStack out = recipe.getResultItem(level.registryAccess());
 			return IVariable.wrap(out.getCount() + "x$(br)" + out.getHoverName());

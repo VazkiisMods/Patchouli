@@ -1,6 +1,7 @@
 package vazkii.patchouli.client.book.template;
 
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -17,8 +18,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.function.UnaryOperator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,7 +28,7 @@ public class VariableAssigner {
 	private static final Pattern INLINE_VAR_PATTERN = Pattern.compile("([^#]*)(#[^#]+)#(.*)");
 	private static final Pattern FUNCTION_PATTERN = Pattern.compile("(.+)->(.+)");
 
-	private static final Map<String, UnaryOperator<IVariable>> FUNCTIONS = new HashMap<>();
+	private static final Map<String, BiFunction<IVariable, HolderLookup.Provider, IVariable>> FUNCTIONS = new HashMap<>();
 	static {
 		FUNCTIONS.put("iname", VariableAssigner::iname);
 		FUNCTIONS.put("icount", VariableAssigner::icount);
@@ -94,9 +95,9 @@ public class VariableAssigner {
 			String arg = m.group(1);
 
 			if (FUNCTIONS.containsKey(funcStr)) {
-				UnaryOperator<IVariable> func = FUNCTIONS.get(funcStr);
+				BiFunction<IVariable, HolderLookup.Provider, IVariable> func = FUNCTIONS.get(funcStr);
 				IVariable parsedArg = resolveStringFunctions(level, arg, c);
-				return c.cache(curr, func.apply(parsedArg));
+				return c.cache(curr, func.apply(parsedArg, level.registryAccess()));
 			} else {
 				throw new IllegalArgumentException("Invalid Function " + funcStr);
 			}
@@ -133,7 +134,7 @@ public class VariableAssigner {
 			}
 
 			if (val == null && c.variables.has(key)) {
-				val = c.variables.get(key);
+				val = c.variables.get(key, level.registryAccess());
 			}
 
 			return val == null ? IVariable.empty() : val;
@@ -141,35 +142,35 @@ public class VariableAssigner {
 		return IVariable.wrap(curr);
 	}
 
-	private static UnaryOperator<IVariable> wrapStringFunc(Function<String, String> inner) {
-		return x -> IVariable.wrap(inner.apply(x.asString()));
+	private static BiFunction<IVariable, HolderLookup.Provider, IVariable> wrapStringFunc(Function<String, String> inner) {
+		return (x, r) -> IVariable.wrap(inner.apply(x.asString()));
 	}
 
-	private static IVariable iname(IVariable arg) {
+	private static IVariable iname(IVariable arg, HolderLookup.Provider registries) {
 		ItemStack stack = arg.as(ItemStack.class);
 		return IVariable.wrap(stack.getHoverName().getString());
 	}
 
-	private static IVariable icount(IVariable arg) {
+	private static IVariable icount(IVariable arg, HolderLookup.Provider registries) {
 		ItemStack stack = arg.as(ItemStack.class);
 		return IVariable.wrap(stack.getCount());
 	}
 
-	private static IVariable exists(IVariable arg) {
+	private static IVariable exists(IVariable arg, HolderLookup.Provider registries) {
 		return IVariable.wrap(!arg.unwrap().isJsonNull());
 	}
 
-	private static IVariable iexists(IVariable arg) {
+	private static IVariable iexists(IVariable arg, HolderLookup.Provider registries) {
 		ItemStack stack = arg.as(ItemStack.class);
 		return IVariable.wrap(stack != null && !stack.isEmpty());
 	}
 
-	private static IVariable inv(IVariable arg) {
+	private static IVariable inv(IVariable arg, HolderLookup.Provider registries) {
 		return IVariable.wrap(!arg.unwrap().getAsBoolean());
 	}
 
-	private static IVariable stacks(IVariable arg) {
-		return IVariable.from(arg.as(Ingredient.class).getItems());
+	private static IVariable stacks(IVariable arg, HolderLookup.Provider registries) {
+		return IVariable.from(arg.as(Ingredient.class).getItems(), registries);
 	}
 
 	private static String ename(String arg) {

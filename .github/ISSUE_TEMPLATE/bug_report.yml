@@ -9,6 +9,7 @@ body:
       label: Mod loader
       options:
         - Forge
+        - NeoForge
         - Fabric
     validations:
       required: true

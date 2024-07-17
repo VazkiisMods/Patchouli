@@ -3,6 +3,8 @@ package vazkii.patchouli.client.book.template.variable;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
+import net.minecraft.core.HolderLookup;
+
 import vazkii.patchouli.api.IVariableSerializer;
 
 import java.lang.reflect.Array;
@@ -20,12 +22,12 @@ public class GenericArrayVariableSerializer<T> implements IVariableSerializer<T[
 	}
 
 	@Override
-	public T[] fromJson(JsonElement json) {
+	public T[] fromJson(JsonElement json, HolderLookup.Provider registries) {
 		if (json.isJsonArray()) {
 			JsonArray array = json.getAsJsonArray();
 			List<T> stacks = new ArrayList<>();
 			for (JsonElement e : array) {
-				stacks.add(inner.fromJson(e));
+				stacks.add(inner.fromJson(e, registries));
 			}
 			return stacks.toArray(empty);
 		}
@@ -33,10 +35,10 @@ public class GenericArrayVariableSerializer<T> implements IVariableSerializer<T[
 	}
 
 	@Override
-	public JsonArray toJson(T[] array) {
+	public JsonArray toJson(T[] array, HolderLookup.Provider registries) {
 		JsonArray result = new JsonArray();
 		for (T elem : array) {
-			result.add(inner.toJson(elem));
+			result.add(inner.toJson(elem, registries));
 		}
 		return result;
 	}

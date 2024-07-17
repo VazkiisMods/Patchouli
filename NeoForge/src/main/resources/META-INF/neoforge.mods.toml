@@ -1,0 +1,27 @@
+modLoader="javafml"
+license="CC BY-NC-SA 3.0"
+loaderVersion="[3,)"
+issueTrackerURL="https://github.com/VazkiiMods/Patchouli"
+logoFile="logo.png"
+
+[[mods]]
+modId="patchouli"
+displayName="Patchouli"
+version="${file.jarVersion}"
+authors="Vazkii"
+description='''
+Accessible, Data-Driven, Dependency-Free Documentation for Minecraft Modders and Pack Makers
+'''
+
+[[dependencies.patchouli]]
+modId="neoforge"
+type="REQUIRED"
+versionRange="[20.6.1-beta,)"
+
+[[dependencies.patchouli]]
+modId="minecraft"
+type="REQUIRED"
+versionRange="[1.20.6,1.21)"
+
+[[mixins]]
+config="patchouli_xplat.mixins.json"

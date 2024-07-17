@@ -18,7 +18,7 @@ import vazkii.patchouli.client.handler.MultiblockVisualizationHandler;
 @Mixin(LevelRenderer.class)
 public class MixinLevelRenderer {
 	@Inject(at = @At("RETURN"), method = "renderLevel")
-	public void onRender(PoseStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightTexture lightmapTextureManager, Matrix4f matrix4f, CallbackInfo info) {
-		MultiblockVisualizationHandler.onWorldRenderLast(matrices);
+	public void onRender(float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightTexture lightmapTextureManager, Matrix4f pose, Matrix4f matrix4f, CallbackInfo info) {
+		MultiblockVisualizationHandler.onWorldRenderLast(new PoseStack(), pose);
 	}
 }

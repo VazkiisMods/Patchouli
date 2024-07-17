@@ -115,7 +115,7 @@ public class GuiBookLanding extends GuiBook {
 	@Override
 	void drawForegroundElements(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
 		if (text != null) {
-			text.render(graphics, mouseX, mouseY);
+			text.render(graphics, mouseX, mouseY, partialTicks);
 		}
 
 		int topSeparator = TOP_PADDING + 12;

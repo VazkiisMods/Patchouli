@@ -52,7 +52,7 @@ public class ComponentText extends TemplateComponent {
 
 	@Override
 	public void render(GuiGraphics graphics, BookPage page, int mouseX, int mouseY, float pticks) {
-		textRenderer.render(graphics, mouseX, mouseY);
+		textRenderer.render(graphics, mouseX, mouseY, pticks);
 	}
 
 	@Override

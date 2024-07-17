@@ -6,7 +6,7 @@ pipeline {
     }
     agent any
     tools {
-        jdk "jdk-17.0.1"
+        jdk "jdk-21"
     }
     stages {
         stage('Clean') {
@@ -40,7 +40,7 @@ pipeline {
     }
     post {
         always {
-            archiveArtifacts artifacts: 'Forge/build/libs/*.jar, Fabric/build/libs/*.jar'
+            archiveArtifacts artifacts: 'NeoForge/build/libs/*.jar, Fabric/build/libs/*.jar'
         }
     }
 }

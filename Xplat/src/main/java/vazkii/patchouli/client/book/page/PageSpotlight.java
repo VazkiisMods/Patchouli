@@ -6,7 +6,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 
 import vazkii.patchouli.api.IVariable;
@@ -21,15 +20,15 @@ public class PageSpotlight extends PageWithText {
 	String title;
 	@SerializedName("link_recipe") boolean linkRecipe;
 
-	transient Ingredient ingredient;
+	transient ItemStack[] stacks;
 
 	@Override
 	public void build(Level level, BookEntry entry, BookContentsBuilder builder, int pageNum) {
 		super.build(level, entry, builder, pageNum);
-		ingredient = item.as(Ingredient.class);
+		stacks = item.as(ItemStack[].class);
 
 		if (linkRecipe) {
-			for (ItemStack stack : ingredient.getItems()) {
+			for (ItemStack stack : stacks) {
 				entry.addRelevantStack(builder, stack, pageNum);
 			}
 		}
@@ -47,11 +46,13 @@ public class PageSpotlight extends PageWithText {
 		if (title != null && !title.isEmpty()) {
 			toDraw = i18nText(title);
 		} else {
-			toDraw = ingredient.getItems()[0].getHoverName();
+			toDraw = stacks[0].getHoverName();
 		}
 
 		parent.drawCenteredStringNoShadow(graphics, toDraw.getVisualOrderText(), GuiBook.PAGE_WIDTH / 2, 0, book.headerColor);
-		parent.renderIngredient(graphics, GuiBook.PAGE_WIDTH / 2 - 8, 15, mouseX, mouseY, ingredient);
+		if (stacks.length > 0) {
+			parent.renderItemStack(graphics, GuiBook.PAGE_WIDTH / 2 - 8, 15, mouseX, mouseY, stacks[(parent.ticksInBook / 20) % stacks.length]);
+		}
 
 		super.render(graphics, mouseX, mouseY, pticks);
 	}

@@ -1,9 +1,9 @@
 pluginManagement {
     plugins {
-        id 'net.minecraftforge.gradle' version '6.0.6' apply false
+        id 'net.neoforged.gradle.userdev' version '7.0.142' apply false
         id 'org.spongepowered.mixin' version '0.7-SNAPSHOT' apply false
         id 'org.spongepowered.gradle.vanilla' version '0.2.1-SNAPSHOT' apply false
-        id 'fabric-loom' version '1.2.7' apply false
+        id 'fabric-loom' version '1.6-SNAPSHOT' apply false
     }
     repositories {
         maven {
@@ -11,8 +11,8 @@ pluginManagement {
             url = 'https://maven.fabricmc.net/'
         }
         maven {
-            name = 'Forge'
-            url = 'https://maven.minecraftforge.net'
+            name = 'NeoForge'
+            url = 'https://maven.neoforged.net/releases'
         }
         maven {
             name = 'Sponge'
@@ -21,5 +21,11 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
+plugins {
+    // Required for NeoGradle
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
+}
+
 rootProject.name = 'Patchouli'
-include("Xplat", "Fabric", "Forge")
+include("Xplat", "Fabric", "NeoForge")
