@@ -2,7 +2,7 @@
   "name": "patchouli.crafting.error",
   "landing_text": "DO NOT OPEN",
   "subtitle": "DO NOT OPEN",
-  "model": "minecraft:item/barrier",
+  "model": "minecraft:barrier",
   "version": "GRADLE:VERSION",
   "use_resource_pack": true
 }

@@ -1,7 +1,7 @@
 {
   "name": "item.patchouli:test_completion.name",
   "landing_text": "item.patchouli:test_completion.landing",
-  "model": "patchouli:item/book_completion",
+  "model": "patchouli:book_completion",
   "version": "GRADLE:VERSION",
   "use_resource_pack": true
 }

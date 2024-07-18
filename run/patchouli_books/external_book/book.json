@@ -1,6 +1,6 @@
 {
   "name": "External Book Test",
-  "model": "minecraft:item/glass",
+  "model": "minecraft:glass",
   "version": "50",
   "creative_tab": "minecraft:tools_and_utilities"
 }
