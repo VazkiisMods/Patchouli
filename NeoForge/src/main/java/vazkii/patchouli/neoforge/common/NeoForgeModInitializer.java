@@ -59,8 +59,10 @@ public class NeoForgeModInitializer {
 		BookRegistry.INSTANCE.books.values().forEach(b -> {
 			if (!b.noBook) {
 				ItemStack book = ItemModBook.forBook(b);
-				if (evt.getTab() == CreativeModeTabs.searchTab()) {
-					evt.accept(book, CreativeModeTab.TabVisibility.SEARCH_TAB_ONLY);
+				if (evt.getTabKey() == CreativeModeTabs.SEARCH) {
+					if (!evt.getSearchEntries().contains(book)) {
+						evt.accept(book, CreativeModeTab.TabVisibility.SEARCH_TAB_ONLY);
+					}
 				} else if (b.creativeTab != null) {
 					if (evt.getTab() == CreativeModeTabRegistry.getTab(b.creativeTab)) {
 						evt.accept(book);
