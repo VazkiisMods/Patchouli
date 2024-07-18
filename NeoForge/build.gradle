@@ -37,11 +37,11 @@ runs {
 }
 
 dependencies {
-    implementation "net.neoforged:neoforge:21.0.57-beta"
+    implementation "net.neoforged:neoforge:21.0.106-beta"
     implementation project(":Xplat")
 
-    compileOnly "mezz.jei:jei-1.21-common-api:19.1.1.19"
-    testCompileOnly "mezz.jei:jei-1.21-common-api:19.1.1.19"
+    compileOnly "mezz.jei:jei-1.21-common-api:19.5.0.33"
+    testCompileOnly "mezz.jei:jei-1.21-common-api:19.5.0.33"
 }
 
 tasks.named('test').configure {
