@@ -65,7 +65,7 @@ public class ClientAdvancements {
 	}
 
 	public static class LexiconToast implements Toast {
-		private static final ResourceLocation BACKGROUND_SPRITE = new ResourceLocation("toast/advancement");
+		private static final ResourceLocation BACKGROUND_SPRITE = ResourceLocation.withDefaultNamespace("toast/advancement");
 		private final Book book;
 
 		public LexiconToast(Book book) {

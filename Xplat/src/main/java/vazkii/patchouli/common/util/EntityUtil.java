@@ -23,7 +23,7 @@ public final class EntityUtil {
 
 	public static String getEntityName(String entityId) {
 		Pair<String, String> nameAndNbt = splitNameAndNBT(entityId);
-		EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(nameAndNbt.getLeft()));
+		EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.tryParse(nameAndNbt.getLeft()));
 
 		return type.getDescriptionId();
 	}
@@ -42,7 +42,7 @@ public final class EntityUtil {
 			}
 		}
 
-		ResourceLocation key = new ResourceLocation(entityId);
+		ResourceLocation key = ResourceLocation.tryParse(entityId);
 		Optional<EntityType<?>> maybeType = BuiltInRegistries.ENTITY_TYPE.getOptional(key);
 		if (maybeType.isEmpty()) {
 			throw new RuntimeException("Unknown entity id: " + entityId);

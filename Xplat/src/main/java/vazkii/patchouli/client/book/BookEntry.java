@@ -69,7 +69,7 @@ public final class BookEntry extends AbstractReadStateHolder implements Comparab
 
 		var categoryId = GsonHelper.getAsString(root, "category");
 		if (categoryId.contains(":")) { // full category ID
-			this.categoryId = new ResourceLocation(categoryId);
+			this.categoryId = ResourceLocation.tryParse(categoryId);
 		} else {
 			String hint = String.format("`%s:%s`", book.id.getNamespace(), categoryId);
 			throw new IllegalArgumentException("`category` must be fully qualified (domain:name). Hint: Try " + hint);

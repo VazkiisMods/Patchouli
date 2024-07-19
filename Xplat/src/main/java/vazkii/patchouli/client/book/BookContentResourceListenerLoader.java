@@ -50,7 +50,7 @@ public class BookContentResourceListenerLoader extends SimpleJsonResourceReloadL
 				PatchouliAPI.LOGGER.trace("Ignored file {}", key);
 				continue;
 			}
-			var bookId = new ResourceLocation(key.getNamespace(), matcher.group("bookId"));
+			var bookId = ResourceLocation.fromNamespaceAndPath(key.getNamespace(), matcher.group("bookId"));
 
 			data.computeIfAbsent(bookId, id -> new HashMap<>()).put(entry.getKey(), entry.getValue());
 		}
@@ -75,7 +75,7 @@ public class BookContentResourceListenerLoader extends SimpleJsonResourceReloadL
 			}
 			if (dir.equals(matcher.group("folder"))
 					&& BookContentsBuilder.DEFAULT_LANG.equals(matcher.group("lang"))) {
-				list.add(new ResourceLocation(id.getNamespace(), matcher.group("entryId")));
+				list.add(ResourceLocation.fromNamespaceAndPath(id.getNamespace(), matcher.group("entryId")));
 			}
 		}
 
@@ -94,7 +94,7 @@ public class BookContentResourceListenerLoader extends SimpleJsonResourceReloadL
 		// Drop patchouli_books/ and json suffix
 		String relativizedPath = path.substring(0, path.length() - 5).split("/", 2)[1];
 
-		JsonElement json = map.get(new ResourceLocation(file.getNamespace(), relativizedPath));
+		JsonElement json = map.get(ResourceLocation.fromNamespaceAndPath(file.getNamespace(), relativizedPath));
 		if (json != null) {
 			return new LoadResult(
 					json,

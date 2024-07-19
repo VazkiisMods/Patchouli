@@ -34,10 +34,10 @@ import java.util.function.Supplier;
 public class Book {
 
 	private static final String[] ORDINAL_SUFFIXES = new String[] { "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th" };
-	private static final ResourceLocation DEFAULT_MODEL = new ResourceLocation(PatchouliAPI.MOD_ID, "book_brown");
-	private static final ResourceLocation DEFAULT_BOOK_TEXTURE = new ResourceLocation(PatchouliAPI.MOD_ID, "textures/gui/book_brown.png");
-	private static final ResourceLocation DEFAULT_FILLER_TEXTURE = new ResourceLocation(PatchouliAPI.MOD_ID, "textures/gui/page_filler.png");
-	private static final ResourceLocation DEFAULT_CRAFTING_TEXTURE = new ResourceLocation(PatchouliAPI.MOD_ID, "textures/gui/crafting.png");
+	private static final ResourceLocation DEFAULT_MODEL = ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "book_brown");
+	private static final ResourceLocation DEFAULT_BOOK_TEXTURE = ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "textures/gui/book_brown.png");
+	private static final ResourceLocation DEFAULT_FILLER_TEXTURE = ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "textures/gui/page_filler.png");
+	private static final ResourceLocation DEFAULT_CRAFTING_TEXTURE = ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "textures/gui/crafting.png");
 
 	private static final Map<String, String> DEFAULT_MACROS = Util.make(() -> {
 		Map<String, String> ret = new HashMap<>();
@@ -109,7 +109,7 @@ public class Book {
 		this.bookTexture = SerializationUtil.getAsResourceLocation(root, "book_texture", DEFAULT_BOOK_TEXTURE);
 		this.fillerTexture = SerializationUtil.getAsResourceLocation(root, "filler_texture", DEFAULT_FILLER_TEXTURE);
 		this.craftingTexture = SerializationUtil.getAsResourceLocation(root, "crafting_texture", DEFAULT_CRAFTING_TEXTURE);
-		this.model = SerializationUtil.getAsResourceLocation(root, "model", DEFAULT_MODEL);
+		this.model = SerializationUtil.getAsResourceLocation(root, "model", DEFAULT_MODEL).withPrefix("item/");
 		this.useBlockyFont = GsonHelper.getAsBoolean(root, "use_blocky_font", false);
 
 		this.owner = owner;

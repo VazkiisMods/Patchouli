@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.Window;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
@@ -26,7 +27,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class BookRightClickHandler {
 
-	public static void onRenderHUD(GuiGraphics graphics, float partialTicks) {
+	public static void onRenderHUD(GuiGraphics graphics, DeltaTracker deltaTracker) {
 		Minecraft mc = Minecraft.getInstance();
 		Player player = mc.player;
 		ItemStack bookStack = player.getMainHandItem();

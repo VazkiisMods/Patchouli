@@ -18,7 +18,7 @@ import java.util.Optional;
  * An advancement trigger for opening Patchouli books.
  */
 public class BookOpenTrigger extends SimpleCriterionTrigger<BookOpenTrigger.TriggerInstance> {
-	public static final ResourceLocation ID = new ResourceLocation(PatchouliAPI.MOD_ID, "open_book");
+	public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "open_book");
 	public static final BookOpenTrigger INSTANCE = new BookOpenTrigger();
 
 	@NotNull

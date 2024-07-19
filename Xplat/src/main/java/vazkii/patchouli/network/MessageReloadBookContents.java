@@ -8,11 +8,11 @@ import net.minecraft.resources.ResourceLocation;
 import vazkii.patchouli.api.PatchouliAPI;
 
 public record MessageReloadBookContents() implements CustomPacketPayload {
-	public static final ResourceLocation ID = new ResourceLocation(PatchouliAPI.MOD_ID, "reload_books");
+	public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "reload_books");
 	public static final StreamCodec<FriendlyByteBuf, MessageReloadBookContents> CODEC = CustomPacketPayload.codec(
 			MessageReloadBookContents::write,
 			MessageReloadBookContents::new);
-	public static final Type<MessageReloadBookContents> TYPE = CustomPacketPayload.createType(ID.toString());
+	public static final Type<MessageReloadBookContents> TYPE = new Type<>(ID);
 
 	public MessageReloadBookContents(final FriendlyByteBuf packetBuffer) {
 		this();

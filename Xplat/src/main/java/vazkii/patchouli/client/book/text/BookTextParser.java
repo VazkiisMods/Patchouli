@@ -139,7 +139,7 @@ public class BookTextParser {
 				}
 
 				ResourceLocation href;
-				href = parameter.contains(":") ? new ResourceLocation(parameter) : new ResourceLocation(state.book.id.getNamespace(), parameter);
+				href = parameter.contains(":") ? ResourceLocation.tryParse(parameter) : ResourceLocation.fromNamespaceAndPath(state.book.id.getNamespace(), parameter);
 				GuiBook gui = state.gui;
 				Book book = state.book;
 				BookEntry entry = book.getContents().entries.get(href);

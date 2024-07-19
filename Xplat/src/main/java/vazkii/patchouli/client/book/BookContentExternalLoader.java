@@ -49,7 +49,7 @@ public final class BookContentExternalLoader implements BookContentLoader {
 		String filePath = f.getAbsolutePath().substring(rootPath.length() + 1);
 		String cleanPath = FilenameUtils.removeExtension(FilenameUtils.separatorsToUnix(filePath));
 
-		return new ResourceLocation(PatchouliAPI.MOD_ID, cleanPath);
+		return ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, cleanPath);
 	}
 
 	@Override

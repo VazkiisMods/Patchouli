@@ -66,7 +66,7 @@ public final class PersistentData {
 			var obj = GsonHelper.getAsJsonObject(root, "bookData", new JsonObject());
 
 			for (var e : obj.entrySet()) {
-				this.bookData.put(new ResourceLocation(e.getKey()), new BookData(e.getValue().getAsJsonObject()));
+				this.bookData.put(ResourceLocation.tryParse(e.getKey()), new BookData(e.getValue().getAsJsonObject()));
 			}
 		}
 
@@ -98,7 +98,7 @@ public final class PersistentData {
 		}
 
 		public Bookmark(JsonObject root) {
-			this.entry = new ResourceLocation(GsonHelper.getAsString(root, "entry"));
+			this.entry = ResourceLocation.tryParse(GsonHelper.getAsString(root, "entry"));
 			this.spread = GsonHelper.getAsInt(root, "page"); // Serialized as page for legacy reasons
 		}
 
@@ -123,16 +123,16 @@ public final class PersistentData {
 		public BookData(JsonObject root) {
 			var emptyArray = new JsonArray();
 			for (var e : GsonHelper.getAsJsonArray(root, "viewedEntries", emptyArray)) {
-				viewedEntries.add(new ResourceLocation(e.getAsString()));
+				viewedEntries.add(ResourceLocation.tryParse(e.getAsString()));
 			}
 			for (var e : GsonHelper.getAsJsonArray(root, "bookmarks", emptyArray)) {
 				bookmarks.add(new Bookmark(e.getAsJsonObject()));
 			}
 			for (var e : GsonHelper.getAsJsonArray(root, "history", emptyArray)) {
-				history.add(new ResourceLocation(e.getAsString()));
+				history.add(ResourceLocation.tryParse(e.getAsString()));
 			}
 			for (var e : GsonHelper.getAsJsonArray(root, "completedManualQuests", emptyArray)) {
-				completedManualQuests.add(new ResourceLocation(e.getAsString()));
+				completedManualQuests.add(ResourceLocation.tryParse(e.getAsString()));
 			}
 		}
 

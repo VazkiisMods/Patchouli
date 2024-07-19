@@ -41,22 +41,22 @@ public class ClientBookRegistry {
 	}
 
 	private void addPageTypes() {
-		pageTypes.put(new ResourceLocation(PatchouliAPI.MOD_ID, "text"), PageText.class);
-		pageTypes.put(new ResourceLocation(PatchouliAPI.MOD_ID, "crafting"), PageCrafting.class);
-		pageTypes.put(new ResourceLocation(PatchouliAPI.MOD_ID, "smelting"), PageSmelting.class);
-		pageTypes.put(new ResourceLocation(PatchouliAPI.MOD_ID, "blasting"), PageBlasting.class);
-		pageTypes.put(new ResourceLocation(PatchouliAPI.MOD_ID, "smoking"), PageSmoking.class);
-		pageTypes.put(new ResourceLocation(PatchouliAPI.MOD_ID, "campfire"), PageCampfireCooking.class);
-		pageTypes.put(new ResourceLocation(PatchouliAPI.MOD_ID, "smithing"), PageSmithing.class);
-		pageTypes.put(new ResourceLocation(PatchouliAPI.MOD_ID, "stonecutting"), PageStonecutting.class);
-		pageTypes.put(new ResourceLocation(PatchouliAPI.MOD_ID, "image"), PageImage.class);
-		pageTypes.put(new ResourceLocation(PatchouliAPI.MOD_ID, "spotlight"), PageSpotlight.class);
-		pageTypes.put(new ResourceLocation(PatchouliAPI.MOD_ID, "empty"), PageEmpty.class);
-		pageTypes.put(new ResourceLocation(PatchouliAPI.MOD_ID, "multiblock"), PageMultiblock.class);
-		pageTypes.put(new ResourceLocation(PatchouliAPI.MOD_ID, "link"), PageLink.class);
-		pageTypes.put(new ResourceLocation(PatchouliAPI.MOD_ID, "relations"), PageRelations.class);
-		pageTypes.put(new ResourceLocation(PatchouliAPI.MOD_ID, "entity"), PageEntity.class);
-		pageTypes.put(new ResourceLocation(PatchouliAPI.MOD_ID, "quest"), PageQuest.class);
+		pageTypes.put(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "text"), PageText.class);
+		pageTypes.put(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "crafting"), PageCrafting.class);
+		pageTypes.put(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "smelting"), PageSmelting.class);
+		pageTypes.put(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "blasting"), PageBlasting.class);
+		pageTypes.put(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "smoking"), PageSmoking.class);
+		pageTypes.put(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "campfire"), PageCampfireCooking.class);
+		pageTypes.put(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "smithing"), PageSmithing.class);
+		pageTypes.put(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "stonecutting"), PageStonecutting.class);
+		pageTypes.put(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "image"), PageImage.class);
+		pageTypes.put(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "spotlight"), PageSpotlight.class);
+		pageTypes.put(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "empty"), PageEmpty.class);
+		pageTypes.put(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "multiblock"), PageMultiblock.class);
+		pageTypes.put(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "link"), PageLink.class);
+		pageTypes.put(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "relations"), PageRelations.class);
+		pageTypes.put(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "entity"), PageEntity.class);
+		pageTypes.put(ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "quest"), PageQuest.class);
 	}
 
 	public void reload() {
@@ -110,7 +110,7 @@ public class ClientBookRegistry {
 			if (string.indexOf(':') < 0) {
 				string = PatchouliAPI.MOD_ID + ":" + string;
 			}
-			ResourceLocation type = new ResourceLocation(string);
+			ResourceLocation type = ResourceLocation.tryParse(string);
 			Class<? extends BookPage> clazz = ClientBookRegistry.INSTANCE.pageTypes.get(type);
 			if (clazz == null) {
 				clazz = PageTemplate.class;
@@ -130,7 +130,7 @@ public class ClientBookRegistry {
 		public TemplateComponent deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 			JsonObject obj = json.getAsJsonObject();
 			JsonPrimitive prim = (JsonPrimitive) obj.get("type");
-			ResourceLocation type = new ResourceLocation(prim.getAsString());
+			ResourceLocation type = ResourceLocation.tryParse(prim.getAsString());
 			Class<? extends TemplateComponent> clazz = BookTemplate.componentTypes.get(type);
 
 			if (clazz == null) {

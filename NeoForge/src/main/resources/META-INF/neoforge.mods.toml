@@ -1,6 +1,6 @@
 modLoader="javafml"
 license="CC BY-NC-SA 3.0"
-loaderVersion="[3,)"
+loaderVersion="[4,)"
 issueTrackerURL="https://github.com/VazkiiMods/Patchouli"
 logoFile="logo.png"
 
@@ -16,12 +16,12 @@ Accessible, Data-Driven, Dependency-Free Documentation for Minecraft Modders and
 [[dependencies.patchouli]]
 modId="neoforge"
 type="REQUIRED"
-versionRange="[20.6.1-beta,)"
+versionRange="[21.0.31-beta,)"
 
 [[dependencies.patchouli]]
 modId="minecraft"
 type="REQUIRED"
-versionRange="[1.20.6,1.21)"
+versionRange="[1.21,1.22)"
 
 [[mixins]]
 config="patchouli_xplat.mixins.json"

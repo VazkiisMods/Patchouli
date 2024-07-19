@@ -59,7 +59,7 @@ public class BookRegistry {
 							}
 
 							String assetPath = fileStr.substring(fileStr.indexOf("data/"));
-							ResourceLocation bookId = new ResourceLocation(id, bookName);
+							ResourceLocation bookId = ResourceLocation.fromNamespaceAndPath(id, bookName);
 							foundBooks.put(Pair.of(mod, bookId), assetPath);
 						}
 

@@ -45,7 +45,7 @@ public final class BookContentResourceDirectLoader implements BookContentLoader 
 					if (newPath.startsWith("/")) {
 						newPath = newPath.substring(1);
 					}
-					return new ResourceLocation(file.getNamespace(), newPath);
+					return ResourceLocation.fromNamespaceAndPath(file.getNamespace(), newPath);
 				})
 				.forEach(list::add);
 	}

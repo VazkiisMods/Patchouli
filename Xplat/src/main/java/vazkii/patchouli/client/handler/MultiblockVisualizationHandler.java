@@ -8,6 +8,7 @@ import com.mojang.datafixers.util.Pair;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -46,6 +47,7 @@ import java.awt.*;
 import java.util.Collection;
 import java.util.IdentityHashMap;
 import java.util.Map;
+import java.util.SequencedMap;
 import java.util.function.Function;
 
 public class MultiblockVisualizationHandler {
@@ -83,12 +85,12 @@ public class MultiblockVisualizationHandler {
 		}
 	}
 
-	public static void onRenderHUD(GuiGraphics graphics, float partialTicks) {
+	public static void onRenderHUD(GuiGraphics graphics, DeltaTracker deltaTracker) {
 		if (hasMultiblock) {
 			int waitTime = 40;
 			int fadeOutSpeed = 4;
 			int fullAnimTime = waitTime + 10;
-			float animTime = timeComplete + (timeComplete == 0 ? 0 : partialTicks);
+			float animTime = timeComplete + (timeComplete == 0 ? 0 : deltaTracker.getGameTimeDeltaPartialTick(false));
 
 			if (animTime > fullAnimTime) {
 				hasMultiblock = false;
@@ -320,14 +322,13 @@ public class MultiblockVisualizationHandler {
 		RenderSystem.enableBlend();
 		RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 		Tesselator tessellator = Tesselator.getInstance();
-		BufferBuilder bufferbuilder = tessellator.getBuilder();
-		bufferbuilder.begin(Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+		BufferBuilder bufferbuilder = tessellator.begin(Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
 		Matrix4f mat = graphics.pose().last().pose();
-		bufferbuilder.vertex(mat, right, top, 0).color(f1, f2, f3, f).endVertex();
-		bufferbuilder.vertex(mat, left, top, 0).color(f1, f2, f3, f).endVertex();
-		bufferbuilder.vertex(mat, left, bottom, 0).color(f5, f6, f7, f4).endVertex();
-		bufferbuilder.vertex(mat, right, bottom, 0).color(f5, f6, f7, f4).endVertex();
-		tessellator.end();
+		bufferbuilder.addVertex(mat, right, top, 0).setColor(f1, f2, f3, f);
+		bufferbuilder.addVertex(mat, left, top, 0).setColor(f1, f2, f3, f);
+		bufferbuilder.addVertex(mat, left, bottom, 0).setColor(f5, f6, f7, f4);
+		bufferbuilder.addVertex(mat, right, bottom, 0).setColor(f5, f6, f7, f4);
+		BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
 		RenderSystem.disableBlend();
 	}
 
@@ -339,17 +340,17 @@ public class MultiblockVisualizationHandler {
 	}
 
 	private static MultiBufferSource.BufferSource initBuffers(MultiBufferSource.BufferSource original) {
-		BufferBuilder fallback = ((AccessorMultiBufferSource) original).getFallbackBuffer();
-		Map<RenderType, BufferBuilder> layerBuffers = ((AccessorMultiBufferSource) original).getFixedBuffers();
-		Map<RenderType, BufferBuilder> remapped = new Object2ObjectLinkedOpenHashMap<>();
-		for (Map.Entry<RenderType, BufferBuilder> e : layerBuffers.entrySet()) {
+		ByteBufferBuilder fallback = ((AccessorMultiBufferSource) original).getFallbackBuffer();
+		SequencedMap<RenderType, ByteBufferBuilder> layerBuffers = ((AccessorMultiBufferSource) original).getFixedBuffers();
+		SequencedMap<RenderType, ByteBufferBuilder> remapped = new Object2ObjectLinkedOpenHashMap<>();
+		for (Map.Entry<RenderType, ByteBufferBuilder> e : layerBuffers.entrySet()) {
 			remapped.put(GhostRenderLayer.remap(e.getKey()), e.getValue());
 		}
 		return new GhostBuffers(fallback, remapped);
 	}
 
 	private static class GhostBuffers extends MultiBufferSource.BufferSource {
-		protected GhostBuffers(BufferBuilder fallback, Map<RenderType, BufferBuilder> layerBuffers) {
+		protected GhostBuffers(ByteBufferBuilder fallback, SequencedMap<RenderType, ByteBufferBuilder> layerBuffers) {
 			super(fallback, layerBuffers);
 		}
 

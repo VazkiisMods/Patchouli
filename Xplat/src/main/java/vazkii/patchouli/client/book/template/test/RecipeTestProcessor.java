@@ -20,7 +20,7 @@ public class RecipeTestProcessor implements IComponentProcessor {
 		// TODO probably add a recipe serializer?
 		String recipeId = variables.get("recipe", level.registryAccess()).asString();
 		RecipeManager manager = level.getRecipeManager();
-		recipe = manager.byKey(new ResourceLocation(recipeId)).orElseThrow(IllegalArgumentException::new).value();
+		recipe = manager.byKey(ResourceLocation.tryParse(recipeId)).orElseThrow(IllegalArgumentException::new).value();
 	}
 
 	@Override

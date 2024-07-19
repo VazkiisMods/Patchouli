@@ -4,7 +4,7 @@
   "model": "minecraft:nether_star",
   "version": "50",
   "subtitle": "Comprehensive Test Book Subtitle",
-  "creative_tab": "minecraft:tools",
+  "creative_tab": "minecraft:tools_and_utilities",
   "use_resource_pack": true,
   "text_overflow_mode": "resize",
   "pause_game": true

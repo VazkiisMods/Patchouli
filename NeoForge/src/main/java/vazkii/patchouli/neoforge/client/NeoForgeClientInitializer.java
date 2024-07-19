@@ -82,11 +82,11 @@ public class NeoForgeClientInitializer {
 	public static void modelRegistry(ModelEvent.RegisterAdditional e) {
 		getBookModels()
 				.stream()
-				.map(model -> new ModelResourceLocation(model, "inventory"))
+				.map(ModelResourceLocation::standalone)
 				.forEach(e::register);
 
 		ItemPropertyFunction prop = (stack, world, entity, seed) -> ItemModBook.getCompletion(stack);
-		ItemProperties.register(PatchouliItems.BOOK, new ResourceLocation(PatchouliAPI.MOD_ID, "completion"), prop);
+		ItemProperties.register(PatchouliItems.BOOK, ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "completion"), prop);
 	}
 
 	@SubscribeEvent
@@ -105,10 +105,10 @@ public class NeoForgeClientInitializer {
 
 	@SubscribeEvent
 	public static void registerOverlays(RegisterGuiLayersEvent evt) {
-		evt.registerAbove(VanillaGuiLayers.CROSSHAIR, new ResourceLocation(PatchouliAPI.MOD_ID, "book_overlay"),
+		evt.registerAbove(VanillaGuiLayers.CROSSHAIR, ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "book_overlay"),
 				BookRightClickHandler::onRenderHUD
 		);
-		evt.registerBelow(VanillaGuiLayers.BOSS_OVERLAY, new ResourceLocation(PatchouliAPI.MOD_ID, "multiblock_progress"),
+		evt.registerBelow(VanillaGuiLayers.BOSS_OVERLAY, ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "multiblock_progress"),
 				MultiblockVisualizationHandler::onRenderHUD
 		);
 	}
@@ -133,7 +133,7 @@ public class NeoForgeClientInitializer {
 		});
 
 		NeoForge.EVENT_BUS.addListener((RenderFrameEvent.Pre e) -> {
-			ClientTicker.renderTickStart(e.getPartialTick());
+			ClientTicker.renderTickStart(e.getPartialTick().getGameTimeDeltaPartialTick(false));
 		});
 		NeoForge.EVENT_BUS.addListener((RenderFrameEvent.Post e) -> {
 			ClientTicker.renderTickEnd();
@@ -150,7 +150,10 @@ public class NeoForgeClientInitializer {
 
 	@SubscribeEvent
 	public static void replaceBookModel(ModelEvent.ModifyBakingResult evt) {
-		ModelResourceLocation key = new ModelResourceLocation(PatchouliItems.BOOK_ID, "inventory");
-		evt.getModels().computeIfPresent(key, (k, oldModel) -> new BookModel(oldModel, evt.getModelBakery()));
+		ModelResourceLocation key = ModelResourceLocation.inventory(PatchouliItems.BOOK_ID);
+		evt.getModels().computeIfPresent(key, (k, oldModel) -> new BookModel(oldModel, evt.getModelBakery(), (model) -> {
+			ModelResourceLocation modelPath = ModelResourceLocation.standalone(model);
+			return Minecraft.getInstance().getModelManager().getModel(modelPath);
+		}));
 	}
 }

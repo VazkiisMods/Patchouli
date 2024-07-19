@@ -29,7 +29,7 @@ public class ComponentImage extends TemplateComponent {
 
 	@Override
 	public void build(BookContentsBuilder builder, BookPage page, BookEntry entry, int pageNum) {
-		resource = new ResourceLocation(image);
+		resource = ResourceLocation.tryParse(image);
 	}
 
 	@Override

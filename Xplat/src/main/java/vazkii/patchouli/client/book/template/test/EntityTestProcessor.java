@@ -21,7 +21,7 @@ public class EntityTestProcessor implements IComponentProcessor {
 			entityType = entityType.substring(0, entityType.indexOf("{"));
 		}
 
-		ResourceLocation key = new ResourceLocation(entityType);
+		ResourceLocation key = ResourceLocation.tryParse(entityType);
 		entityName = BuiltInRegistries.ENTITY_TYPE.getOptional(key)
 				.map(EntityType::getDescription).map(Component::getString)
 				.orElse(null);
