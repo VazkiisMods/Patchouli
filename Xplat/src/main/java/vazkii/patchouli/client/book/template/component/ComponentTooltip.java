@@ -3,6 +3,7 @@ package vazkii.patchouli.client.book.template.component;
 import com.google.gson.annotations.SerializedName;
 
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
 
 import vazkii.patchouli.api.IVariable;
@@ -23,8 +24,8 @@ public class ComponentTooltip extends TemplateComponent {
 	transient List<Component> tooltip;
 
 	@Override
-	public void onVariablesAvailable(UnaryOperator<IVariable> lookup) {
-		super.onVariablesAvailable(lookup);
+	public void onVariablesAvailable(UnaryOperator<IVariable> lookup, HolderLookup.Provider registries) {
+		super.onVariablesAvailable(lookup, registries);
 		for (int i = 0; i < tooltipRaw.length; i++) {
 			tooltipRaw[i] = lookup.apply(tooltipRaw[i]);
 		}

@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.level.Level;
 
 import vazkii.patchouli.api.IComponentProcessor;
@@ -90,11 +91,11 @@ public abstract class TemplateComponent implements IVariablesAvailableCallback {
 	}
 
 	@Override
-	public void onVariablesAvailable(UnaryOperator<IVariable> lookup) {
+	public void onVariablesAvailable(UnaryOperator<IVariable> lookup, HolderLookup.Provider registries) {
 		// TODO fix this up to use IVariable more intelligently
-		group = lookup.apply(IVariable.wrap(group)).asString();
-		flag = lookup.apply(IVariable.wrap(flag)).asString();
-		advancement = lookup.apply(IVariable.wrap(advancement)).asString();
-		guardPass = (guard == null || lookup.apply(IVariable.wrap(guard)).asBoolean());
+		group = lookup.apply(IVariable.wrap(group, registries)).asString();
+		flag = lookup.apply(IVariable.wrap(flag, registries)).asString();
+		advancement = lookup.apply(IVariable.wrap(advancement, registries)).asString();
+		guardPass = (guard == null || lookup.apply(IVariable.wrap(guard, registries)).asBoolean());
 	}
 }

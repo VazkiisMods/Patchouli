@@ -30,7 +30,7 @@ public class EntityTestProcessor implements IComponentProcessor {
 	@Override
 	public IVariable process(Level level, String key) {
 		if (key.equals("name")) {
-			return IVariable.wrap(entityName);
+			return IVariable.wrap(entityName, level.registryAccess());
 		}
 
 		return null;

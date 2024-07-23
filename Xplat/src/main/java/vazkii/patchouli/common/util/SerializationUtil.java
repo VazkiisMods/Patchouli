@@ -15,9 +15,10 @@ import java.util.Locale;
 
 public final class SerializationUtil {
 
+	public static final IVariable.Serializer VARIABLE_SERIALIZER = new IVariable.Serializer();
 	public static final Gson RAW_GSON = new GsonBuilder()
 			.registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())
-			.registerTypeAdapter(IVariable.class, new IVariable.Serializer())
+			.registerTypeAdapter(IVariable.class, VARIABLE_SERIALIZER)
 			.create();
 	public static final Gson PRETTY_GSON = new GsonBuilder().setPrettyPrinting().create();
 
