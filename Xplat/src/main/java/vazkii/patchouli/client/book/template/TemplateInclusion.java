@@ -101,11 +101,11 @@ public class TemplateInclusion {
 	/**
 	 * Attempt to look up a variable in local scope.
 	 */
-	public IVariable attemptVariableLookup(String key) {
+	public IVariable attemptVariableLookup(String key, HolderLookup.Provider registries) {
 		if (key.startsWith("#")) {
 			key = key.substring(1);
 		}
-		IVariable result = IVariable.wrap(localBindings.get(key), RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY));
+		IVariable result = IVariable.wrap(localBindings.get(key), registries);
 		return result.asString().isEmpty() || isUpreference(result) ? null : result;
 	}
 
@@ -120,12 +120,12 @@ public class TemplateInclusion {
 		return new IVariableProvider() {
 			@Override
 			public boolean has(String key) {
-				return attemptVariableLookup(key) != null || provider.has(qualifyName(key));
+				return attemptVariableLookup(key, RegistryAccess.EMPTY) != null || provider.has(qualifyName(key));
 			}
 
 			@Override
 			public IVariable get(String key, HolderLookup.Provider registries) {
-				IVariable vari = attemptVariableLookup(key);
+				IVariable vari = attemptVariableLookup(key, registries);
 				return vari == null ? provider.get(qualifyName(key), registries) : vari;
 			}
 		};

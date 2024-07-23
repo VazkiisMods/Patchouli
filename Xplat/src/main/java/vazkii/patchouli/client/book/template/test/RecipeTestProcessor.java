@@ -34,11 +34,11 @@ public class RecipeTestProcessor implements IComponentProcessor {
 			return IVariable.from(stack, level.registryAccess());
 		} else if (key.equals("text")) {
 			ItemStack out = recipe.getResultItem(level.registryAccess());
-			return IVariable.wrap(out.getCount() + "x$(br)" + out.getHoverName());
+			return IVariable.wrap(out.getCount() + "x$(br)" + out.getHoverName(), level.registryAccess());
 		} else if (key.equals("icount")) {
-			return IVariable.wrap(recipe.getResultItem(level.registryAccess()).getCount());
+			return IVariable.wrap(recipe.getResultItem(level.registryAccess()).getCount(), level.registryAccess());
 		} else if (key.equals("iname")) {
-			return IVariable.wrap(recipe.getResultItem(level.registryAccess()).getHoverName().getString());
+			return IVariable.wrap(recipe.getResultItem(level.registryAccess()).getHoverName().getString(), level.registryAccess());
 		}
 
 		return null;

@@ -58,7 +58,7 @@ public class VariableAssigner {
 				}
 			}
 			return input;
-		});
+		}, level.registryAccess());
 	}
 
 	private static IVariable resolveString(Level level, @Nullable String curr, Context c) {
@@ -118,7 +118,7 @@ public class VariableAssigner {
 
 		if (curr.startsWith("#")) {
 			if (c.encapsulation != null) {
-				val = c.encapsulation.attemptVariableLookup(curr);
+				val = c.encapsulation.attemptVariableLookup(curr, level.registryAccess());
 				if (val != null) {
 					return val;
 				} else {
@@ -139,34 +139,34 @@ public class VariableAssigner {
 
 			return val == null ? IVariable.empty() : val;
 		}
-		return IVariable.wrap(curr);
+		return IVariable.wrap(curr, level.registryAccess());
 	}
 
 	private static BiFunction<IVariable, HolderLookup.Provider, IVariable> wrapStringFunc(Function<String, String> inner) {
-		return (x, r) -> IVariable.wrap(inner.apply(x.asString()));
+		return (x, r) -> IVariable.wrap(inner.apply(x.asString()), r);
 	}
 
 	private static IVariable iname(IVariable arg, HolderLookup.Provider registries) {
 		ItemStack stack = arg.as(ItemStack.class);
-		return IVariable.wrap(stack.getHoverName().getString());
+		return IVariable.wrap(stack.getHoverName().getString(), registries);
 	}
 
 	private static IVariable icount(IVariable arg, HolderLookup.Provider registries) {
 		ItemStack stack = arg.as(ItemStack.class);
-		return IVariable.wrap(stack.getCount());
+		return IVariable.wrap(stack.getCount(), registries);
 	}
 
 	private static IVariable exists(IVariable arg, HolderLookup.Provider registries) {
-		return IVariable.wrap(!arg.unwrap().isJsonNull());
+		return IVariable.wrap(!arg.unwrap().isJsonNull(), registries);
 	}
 
 	private static IVariable iexists(IVariable arg, HolderLookup.Provider registries) {
 		ItemStack stack = arg.as(ItemStack.class);
-		return IVariable.wrap(stack != null && !stack.isEmpty());
+		return IVariable.wrap(stack != null && !stack.isEmpty(), registries);
 	}
 
 	private static IVariable inv(IVariable arg, HolderLookup.Provider registries) {
-		return IVariable.wrap(!arg.unwrap().getAsBoolean());
+		return IVariable.wrap(!arg.unwrap().getAsBoolean(), registries);
 	}
 
 	private static IVariable stacks(IVariable arg, HolderLookup.Provider registries) {

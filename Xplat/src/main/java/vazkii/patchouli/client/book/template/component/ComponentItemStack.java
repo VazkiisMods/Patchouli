@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 
 import vazkii.patchouli.api.IVariable;
@@ -33,8 +34,8 @@ public class ComponentItemStack extends TemplateComponent {
 	}
 
 	@Override
-	public void onVariablesAvailable(UnaryOperator<IVariable> lookup) {
-		super.onVariablesAvailable(lookup);
+	public void onVariablesAvailable(UnaryOperator<IVariable> lookup, HolderLookup.Provider registries) {
+		super.onVariablesAvailable(lookup, registries);
 		items = lookup.apply(item).as(ItemStack[].class);
 	}
 

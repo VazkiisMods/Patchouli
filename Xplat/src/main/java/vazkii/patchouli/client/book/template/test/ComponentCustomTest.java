@@ -2,6 +2,7 @@ package vazkii.patchouli.client.book.template.test;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
 
 import vazkii.patchouli.api.IComponentRenderContext;
@@ -35,7 +36,7 @@ public class ComponentCustomTest implements ICustomComponent {
 	}
 
 	@Override
-	public void onVariablesAvailable(UnaryOperator<IVariable> lookup) {
-		text = lookup.apply(IVariable.wrap("First we eat #spaghet#, then we drink #pop#")).asString();
+	public void onVariablesAvailable(UnaryOperator<IVariable> lookup, HolderLookup.Provider registries) {
+		text = lookup.apply(IVariable.wrap("First we eat #spaghet#, then we drink #pop#", registries)).asString();
 	}
 }

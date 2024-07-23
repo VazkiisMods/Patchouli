@@ -3,6 +3,7 @@ package vazkii.patchouli.client.book.template.component;
 import com.google.gson.annotations.SerializedName;
 
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.HolderLookup;
 
 import vazkii.patchouli.api.ICustomComponent;
 import vazkii.patchouli.api.IVariable;
@@ -22,12 +23,12 @@ public class ComponentCustom extends TemplateComponent {
 	private transient ICustomComponent callbacks;
 
 	@Override
-	public void onVariablesAvailable(UnaryOperator<IVariable> lookup) {
-		super.onVariablesAvailable(lookup);
+	public void onVariablesAvailable(UnaryOperator<IVariable> lookup, HolderLookup.Provider registries) {
+		super.onVariablesAvailable(lookup, registries);
 		try {
 			Class<?> classObj = Class.forName(clazz);
 			callbacks = (ICustomComponent) SerializationUtil.RAW_GSON.fromJson(sourceObject, classObj);
-			callbacks.onVariablesAvailable(lookup);
+			callbacks.onVariablesAvailable(lookup, registries);
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to create custom component " + clazz, e);
 		}

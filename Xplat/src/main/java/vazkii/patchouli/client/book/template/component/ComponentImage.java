@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;
 
 import vazkii.patchouli.api.IVariable;
@@ -33,9 +34,9 @@ public class ComponentImage extends TemplateComponent {
 	}
 
 	@Override
-	public void onVariablesAvailable(UnaryOperator<IVariable> lookup) {
-		super.onVariablesAvailable(lookup);
-		image = lookup.apply(IVariable.wrap(image)).asString();
+	public void onVariablesAvailable(UnaryOperator<IVariable> lookup, HolderLookup.Provider registries) {
+		super.onVariablesAvailable(lookup, registries);
+		image = lookup.apply(IVariable.wrap(image, registries)).asString();
 	}
 
 	@Override

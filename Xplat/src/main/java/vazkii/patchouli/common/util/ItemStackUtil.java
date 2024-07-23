@@ -8,6 +8,7 @@ import com.mojang.serialization.JsonOps;
 import net.minecraft.commands.arguments.item.ItemParser;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -78,9 +79,11 @@ public final class ItemStackUtil {
 		String[] stacksSerialized = splitStacksFromSerializedIngredient(ingredientString);
 		List<ItemStack> stacks = new ArrayList<>();
 		for (String s : stacksSerialized) {
+			if (s.isEmpty())
+				continue;
 			if (s.startsWith("tag:")) {
 				var key = TagKey.create(Registries.ITEM, ResourceLocation.tryParse(s.substring(4)));
-				BuiltInRegistries.ITEM.getTag(key).ifPresent(tag -> tag.stream().forEach(item -> stacks.add(new ItemStack(item))));
+				registries.lookupOrThrow(Registries.ITEM).get(key).stream().flatMap(HolderSet::stream).forEach(item -> stacks.add(new ItemStack(item)));
 			} else {
 				stacks.add(loadStackFromString(s, registries));
 			}

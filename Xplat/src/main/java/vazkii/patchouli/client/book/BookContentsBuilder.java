@@ -11,6 +11,7 @@ import vazkii.patchouli.client.book.template.BookTemplate;
 import vazkii.patchouli.common.book.Book;
 import vazkii.patchouli.common.book.BookRegistry;
 import vazkii.patchouli.common.util.ItemStackUtil;
+import vazkii.patchouli.common.util.SerializationUtil;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -69,6 +70,7 @@ public class BookContentsBuilder {
 
 	public static BookContents loadAndBuildFor(Level level, Book book, boolean singleBookReload) {
 		BookContentsBuilder builder = new BookContentsBuilder(book, singleBookReload);
+		SerializationUtil.VARIABLE_SERIALIZER.setRegistries(level.registryAccess());
 		builder.loadFiles();
 		return builder.build(level);
 	}

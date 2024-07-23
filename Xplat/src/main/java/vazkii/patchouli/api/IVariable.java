@@ -142,16 +142,31 @@ public interface IVariable {
 		return wrap(arr, registries);
 	}
 
+	@Deprecated // Use HolderLookup.Provider version
 	static IVariable wrap(@Nullable Number n) {
-		return n != null ? wrap(new JsonPrimitive(n), RegistryAccess.EMPTY) : empty();
+		return wrap(n, RegistryAccess.EMPTY);
 	}
 
+	static IVariable wrap(@Nullable Number n, HolderLookup.Provider registries) {
+		return n != null ? wrap(new JsonPrimitive(n), registries) : empty();
+	}
+
+	@Deprecated // Use HolderLookup.Provider version
 	static IVariable wrap(@Nullable Boolean b) {
-		return b != null ? wrap(new JsonPrimitive(b), RegistryAccess.EMPTY) : empty();
+		return wrap(b, RegistryAccess.EMPTY);
 	}
 
+	static IVariable wrap(@Nullable Boolean b, HolderLookup.Provider registries) {
+		return b != null ? wrap(new JsonPrimitive(b), registries) : empty();
+	}
+
+	@Deprecated // Use HolderLookup.Provider version
 	static IVariable wrap(@Nullable String s) {
-		return s != null ? wrap(new JsonPrimitive(s), RegistryAccess.EMPTY) : empty();
+		return wrap(s, RegistryAccess.EMPTY);
+	}
+
+	static IVariable wrap(@Nullable String s, HolderLookup.Provider registries) {
+		return s != null ? wrap(new JsonPrimitive(s), registries) : empty();
 	}
 
 	static IVariable empty() {
@@ -159,9 +174,19 @@ public interface IVariable {
 	}
 
 	class Serializer implements JsonDeserializer<IVariable> {
+
+		private HolderLookup.Provider registryCache;
+
 		@Override
 		public IVariable deserialize(JsonElement elem, Type t, JsonDeserializationContext c) {
-			return IVariable.wrap(elem, RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY));
+			if (registryCache == null || registryCache.listRegistries().findFirst().isEmpty()) {
+				registryCache = RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY);
+			}
+			return IVariable.wrap(elem, registryCache);
+		}
+
+		public void setRegistries(HolderLookup.Provider registries) {
+			this.registryCache = registries;
 		}
 	}
 }
