@@ -11,6 +11,7 @@ import vazkii.patchouli.api.PatchouliAPI;
 import org.jetbrains.annotations.Nullable;
 
 public record MessageOpenBookGui(ResourceLocation book, @Nullable ResourceLocation entry, int page) implements CustomPacketPayload {
+
 	public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(PatchouliAPI.MOD_ID, "open_book");
 	public static final StreamCodec<FriendlyByteBuf, MessageOpenBookGui> CODEC = StreamCodec.composite(
 			ResourceLocation.STREAM_CODEC,

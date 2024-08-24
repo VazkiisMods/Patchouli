@@ -88,6 +88,7 @@ public class BookModel implements BakedModel {
 
 	private static class DummyModelBaker implements ModelBaker {
 		static ModelBaker INSTANCE = new DummyModelBaker();
+
 		// soft implement IModelBakerExtension
 		public Function<Material, TextureAtlasSprite> getModelTextureGetter() {
 			return null;

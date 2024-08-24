@@ -17,7 +17,7 @@ public class NeoForgeClientPayloadHandler {
 	public void handleData(final MessageOpenBookGui data, final IPayloadContext context) {
 		try {
 			ClientBookRegistry.INSTANCE.displayBookGui(data.book(), data.entry(), data.page());
-		} catch(Exception e) {
+		} catch (Exception e) {
 			context.disconnect(Component.translatable("patchouli.networking.open_book.failed", e.getMessage()));
 		}
 	}
@@ -25,7 +25,7 @@ public class NeoForgeClientPayloadHandler {
 	public void handleData(final MessageReloadBookContents data, final IPayloadContext context) {
 		try {
 			ClientBookRegistry.INSTANCE.reload();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			context.disconnect(Component.translatable("patchouli.networking.reload_contents.failed", e.getMessage()));
 		}
 	}
