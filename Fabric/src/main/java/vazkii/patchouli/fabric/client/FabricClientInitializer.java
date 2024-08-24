@@ -62,9 +62,7 @@ public class FabricClientInitializer implements ClientModInitializer {
 								PatchouliItems.BOOK_ID.equals(ctx.topLevelId().id()) // checks namespace and path
 								&& ctx.topLevelId().getVariant().equals("inventory")
 								&& oldModel != null) {
-							return new BookModel(oldModel, ctx.loader(), (model) -> {
-								return Minecraft.getInstance().getModelManager().getModel(model);
-							});
+							return new BookModel(oldModel, (model) -> Minecraft.getInstance().getModelManager().getModel(model));
 						}
 						return oldModel;
 					}

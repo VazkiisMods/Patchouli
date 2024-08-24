@@ -37,7 +37,7 @@ runs {
 }
 
 dependencies {
-    implementation "net.neoforged:neoforge:21.0.106-beta"
+    implementation "net.neoforged:neoforge:21.0.143"
     implementation project(":Xplat")
 
     compileOnly "mezz.jei:jei-1.21-common-api:19.5.0.33"
