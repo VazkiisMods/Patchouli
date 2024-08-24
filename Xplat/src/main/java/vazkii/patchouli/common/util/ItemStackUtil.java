@@ -143,6 +143,7 @@ public final class ItemStackUtil {
 
 		int lastIndex = 0;
 		int braces = 0;
+		int brackets = 0;
 		Character insideString = null;
 		for (int i = 0; i < ingredientSerialized.length(); i++) {
 			switch (ingredientSerialized.charAt(i)) {
@@ -156,6 +157,16 @@ public final class ItemStackUtil {
 					braces--;
 				}
 				break;
+			case '[':
+				if (insideString == null) {
+					brackets++;
+				}
+				break;
+			case ']':
+				if (insideString == null) {
+					brackets--;
+				}
+				break;
 			case '\'':
 				insideString = insideString == null ? '\'' : null;
 				break;
@@ -163,7 +174,7 @@ public final class ItemStackUtil {
 				insideString = insideString == null ? '"' : null;
 				break;
 			case ',':
-				if (braces <= 0) {
+				if (braces <= 0 && brackets <= 0) {
 					result.add(ingredientSerialized.substring(lastIndex, i));
 					lastIndex = i + 1;
 					break;
