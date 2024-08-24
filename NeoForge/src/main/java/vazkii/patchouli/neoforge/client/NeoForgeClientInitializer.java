@@ -151,9 +151,6 @@ public class NeoForgeClientInitializer {
 	@SubscribeEvent
 	public static void replaceBookModel(ModelEvent.ModifyBakingResult evt) {
 		ModelResourceLocation key = ModelResourceLocation.inventory(PatchouliItems.BOOK_ID);
-		evt.getModels().computeIfPresent(key, (k, oldModel) -> new BookModel(oldModel, evt.getModelBakery(), (model) -> {
-			ModelResourceLocation modelPath = ModelResourceLocation.standalone(model);
-			return Minecraft.getInstance().getModelManager().getModel(modelPath);
-		}));
+		evt.getModels().computeIfPresent(key, (k, oldModel) -> new BookModel(oldModel, (model) -> Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(model))));
 	}
 }
