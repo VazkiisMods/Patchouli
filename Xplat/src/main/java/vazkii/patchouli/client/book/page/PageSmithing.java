@@ -32,8 +32,8 @@ public class PageSmithing extends PageDoubleRecipeRegistry<SmithingRecipe> {
 
 		parent.renderIngredient(graphics, recipeX + 4, recipeY + 4, mouseX, mouseY, getBase(recipe));
 		parent.renderIngredient(graphics, recipeX + 4, recipeY + 23, mouseX, mouseY, getAddition(recipe));
-		// TODO add template
-		parent.renderItemStack(graphics, recipeX + 40, recipeY + 13, mouseX, mouseY, recipe.getToastSymbol());
+		parent.renderIngredient(graphics, recipeX + 40, recipeY + 4, mouseX, mouseY, getTemplate(recipe));
+		parent.renderItemStack(graphics, recipeX + 40, recipeY + 20, mouseX, mouseY, recipe.getToastSymbol());
 		parent.renderItemStack(graphics, recipeX + 76, recipeY + 13, mouseX, mouseY, recipe.getResultItem(level.registryAccess()));
 	}
 
