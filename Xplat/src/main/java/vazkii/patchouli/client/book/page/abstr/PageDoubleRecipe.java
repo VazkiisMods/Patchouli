@@ -16,6 +16,8 @@ public abstract class PageDoubleRecipe<T> extends PageWithText {
 
 	@SerializedName("recipe") ResourceLocation recipeId;
 	@SerializedName("recipe2") ResourceLocation recipe2Id;
+	@SerializedName("link_recipe") boolean linkRecipe = true;
+	@SerializedName("link_recipe2") boolean linkRecipe2 = true;
 	String title;
 
 	protected transient T recipe1, recipe2;
@@ -25,8 +27,8 @@ public abstract class PageDoubleRecipe<T> extends PageWithText {
 	public void build(Level level, BookEntry entry, BookContentsBuilder builder, int pageNum) {
 		super.build(level, entry, builder, pageNum);
 
-		recipe1 = loadRecipe(level, builder, entry, recipeId);
-		recipe2 = loadRecipe(level, builder, entry, recipe2Id);
+		recipe1 = loadRecipe(level, builder, entry, recipeId, linkRecipe);
+		recipe2 = loadRecipe(level, builder, entry, recipe2Id, linkRecipe2);
 
 		if (recipe1 == null && recipe2 != null) {
 			recipe1 = recipe2;
@@ -70,7 +72,7 @@ public abstract class PageDoubleRecipe<T> extends PageWithText {
 	}
 
 	protected abstract void drawRecipe(GuiGraphics graphics, T recipe, int recipeX, int recipeY, int mouseX, int mouseY, boolean second);
-	protected abstract T loadRecipe(Level level, BookContentsBuilder builder, BookEntry entry, ResourceLocation loc);
+	protected abstract T loadRecipe(Level level, BookContentsBuilder builder, BookEntry entry, ResourceLocation loc, boolean linkRecipe);
 	protected abstract ItemStack getRecipeOutput(Level level, T recipe);
 	protected abstract int getRecipeHeight();
 
