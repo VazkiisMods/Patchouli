@@ -94,7 +94,7 @@
 	"patchouli.gui.lexicon.button.config": "配置",
 	"patchouli.gui.lexicon.button.visualize": "可视化",
 	"patchouli.gui.lexicon.button.visualize.info": "（再次点击以清除）",
-	"patchouli.gui.lexicon.button.history": "浏览历史"
+	"patchouli.gui.lexicon.button.history": "浏览历史",
 	"patchouli.gui.lexicon.button.mark_all_read": "全部标记为已读",
 	"patchouli.gui.lexicon.button.mark_category_read": "将此类别标记为已读"
 }
