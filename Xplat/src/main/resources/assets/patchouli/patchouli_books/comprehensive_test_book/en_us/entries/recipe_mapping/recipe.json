@@ -9,6 +9,12 @@
       "recipe2": "minecraft:flint_and_steel"
     },
     {
+      "type": "patchouli:crafting",
+      "recipe": "minecraft:fletching_table",
+      "recipe2": "minecraft:snow",
+      "link_recipe": false
+    },
+    {
       "type": "patchouli:smelting",
       "recipe": "minecraft:cooked_cod"
     },

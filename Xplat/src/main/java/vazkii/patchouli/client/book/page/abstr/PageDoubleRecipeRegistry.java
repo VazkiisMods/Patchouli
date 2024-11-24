@@ -28,7 +28,7 @@ public abstract class PageDoubleRecipeRegistry<T extends Recipe<?>> extends Page
 	}
 
 	@Override
-	protected T loadRecipe(Level level, BookContentsBuilder builder, BookEntry entry, ResourceLocation res) {
+	protected T loadRecipe(Level level, BookContentsBuilder builder, BookEntry entry, ResourceLocation res, boolean linkRecipe) {
 		if (res == null || level == null) {
 			return null;
 		}
@@ -39,7 +39,9 @@ public abstract class PageDoubleRecipeRegistry<T extends Recipe<?>> extends Page
 		}
 
 		if (tempRecipe != null) {
-			entry.addRelevantStack(builder, tempRecipe.getResultItem(level.registryAccess()), pageNum);
+			if (linkRecipe) {
+				entry.addRelevantStack(builder, tempRecipe.getResultItem(level.registryAccess()), pageNum);
+			}
 			return tempRecipe;
 		}
 
