@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.spongepowered.gradle.vanilla'
+    id 'net.neoforged.moddev'
 }
 
 base {
@@ -11,8 +11,11 @@ if (System.getenv().RELEASE_MODE == null) {
     version += '-SNAPSHOT'
 }
 
-minecraft {
-    version(mc_version)
+neoForge {
+    // To find the timestamp, see https://projects.neoforged.net/neoforged/neoform
+    neoFormVersion = "$mc_version-20240613.152323"
+
+    addModdingDependenciesTo sourceSets.test
 }
 
 repositories {
