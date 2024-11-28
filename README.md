@@ -3,7 +3,7 @@ Accessible, Data-Driven, Dependency-Free Documentation for Minecraft Modders and
 
 For more information, see the [docs](https://vazkiimods.github.io/Patchouli/docs/intro).
 
-## What does the mod's name mean???1
+## What does the mod's name mean???!
 https://en.touhouwiki.net/wiki/Patchouli_Knowledge
 
 ## Maven info
