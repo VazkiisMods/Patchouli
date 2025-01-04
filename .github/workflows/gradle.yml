@@ -6,16 +6,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Set up JDK
-      uses: actions/setup-java@v2
+      uses: actions/setup-java@v4
       with:
         distribution: 'adopt'
         java-version: '17'
     - name: Validate gradlew integrity
       uses: gradle/wrapper-validation-action@v1
     - name: Restore cache
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ~/.gradle/caches
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/build.gradle') }}
@@ -53,26 +53,26 @@ jobs:
         gpg --local-user "Violet Moon Signing Key" --armor \
           --detach-sign ${{ steps.calculate_artifact_names.outputs.fabric }}
     - name: Archive Forge Jar
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: Forge Jar
         path: |
           ${{ steps.calculate_artifact_names.outputs.forge }}
     - name: Archive Forge Signature
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       if: ${{ env.SIGNING_KEY != '' && startsWith(github.ref, 'refs/tags/release-')}}
       with:
         name: Forge Signature
         path: |
           ${{ steps.calculate_artifact_names.outputs.forge }}.asc
     - name: Archive Fabric Jar
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: Fabric Jar
         path: |
           ${{ steps.calculate_artifact_names.outputs.fabric }}
     - name: Archive Fabric Signature
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       if: ${{ env.SIGNING_KEY != '' && startsWith(github.ref, 'refs/tags/release-')}}
       with:
         name: Fabric Signature
