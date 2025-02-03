@@ -42,11 +42,9 @@ dependencies {
 
     compileOnly "mezz.jei:jei-1.21-common-api:19.5.0.33"
     testCompileOnly "mezz.jei:jei-1.21-common-api:19.5.0.33"
-}
 
-tasks.named('test').configure {
-    //Disable builtin test as we have JUnit enabled in Xplat
-    enabled(false)
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.8.1"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.8.1"
 }
 
 TaskCollection.metaClass.excludingNeoTasks = { ->
