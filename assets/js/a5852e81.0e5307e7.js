@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkpatchouli_docs=self.webpackChunkpatchouli_docs||[]).push([[551],{1614:function(c,e,t){t.r(e);var o=t(7294),s=t(6550);e.default=()=>o.createElement(s.l_,{to:"docs/intro"})}}]);
