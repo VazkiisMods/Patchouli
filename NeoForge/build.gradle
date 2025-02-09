@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'idea'
-    id 'net.neoforged.gradle.userdev'
+    id 'net.neoforged.moddev'
     id 'eclipse'
 }
 
@@ -20,24 +20,33 @@ repositories {
     }
 }
 
-runs {
-    configureEach {
-        workingDirectory project.file('../run')
-        systemProperty 'forge.logging.console.level', 'debug'
-        systemProperty 'fml.earlyprogresswindow', 'false'
+neoForge {
+    version = "21.0.143"
 
-        modSource project.sourceSets.main
+    mods {
+        patchouli {
+            sourceSet sourceSets.main
+        }
     }
 
-    client {
-    }
-    server {
-        programArgument '--nogui'
+    runs {
+        configureEach {
+            gameDirectory = project.file('../run')
+            systemProperty 'forge.logging.console.level', 'debug'
+            systemProperty 'fml.earlyprogresswindow', 'false'
+        }
+
+        client {
+            client()
+        }
+        server {
+            server()
+            programArgument '--nogui'
+        }
     }
 }
 
 dependencies {
-    implementation "net.neoforged:neoforge:21.0.143"
     implementation project(":Xplat")
 
     compileOnly "mezz.jei:jei-1.21-common-api:19.5.0.33"
@@ -49,15 +58,11 @@ tasks.named('test').configure {
     enabled(false)
 }
 
-TaskCollection.metaClass.excludingNeoTasks = { ->
-    delegate.matching { !it.name.startsWith("neo") }
-}
-
-tasks.withType(JavaCompile).excludingNeoTasks().configureEach {
+tasks.withType(JavaCompile).configureEach {
     source(project(":Xplat").sourceSets.main.allSource)
 }
 
-tasks.withType(Javadoc).excludingNeoTasks().configureEach {
+tasks.withType(Javadoc).configureEach {
     source(project(":Xplat").sourceSets.main.allJava)
 }
 
@@ -65,7 +70,7 @@ tasks.named("sourcesJar", Jar) {
     from(project(":Xplat").sourceSets.main.allSource)
 }
 
-tasks.withType(ProcessResources).excludingNeoTasks().configureEach {
+tasks.withType(ProcessResources).configureEach {
     from project(":Xplat").sourceSets.main.resources
 }
 
